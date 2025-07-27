@@ -1,0 +1,31 @@
+﻿@model IEnumerable<GetClaimsViewModel>;
+
+		<div>
+	<p>
+		<a asp-action="Create" class ="btn btn-primary">Create New Role</a>
+	</p>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>@Html.DisplayNameFor(M => M.Name)</th>
+		</tr>
+	</thead>
+	<tbody>
+
+			@foreach (var item in Model)
+			{
+					<tr>
+						<td>@item.Name</td>
+
+
+						<td>
+						<a asp-action="Details" asp-route-Id="@item.Id"class ="btn btn-info">Detaills</a>
+						</td>
+						<td><a asp-action="Update" asp-route-Id="@item.Id" class ="btn btn-primary">Edit</a></td>
+						<td><a asp-action="Delete" asp-route-Id="@item.Id" class ="btn btn-danger">Delete</a></td>
+					</tr>
+			}
+	</tbody>
+</table>
+</div>

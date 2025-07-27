@@ -1,0 +1,28 @@
+﻿@model CreateRoleViewModel;
+
+
+<div>
+<form asp-action="Create">
+		<div asp-validation-summary="All"></div>            
+		<Label>Name</Label>
+		<div>
+			<input asp-for="Name" class="form-control" />
+			<span asp-validation-for="Name" class="text-danger" ></span>
+		</div>
+
+		<input type="submit" value="save" class="btn btn-primary"/>
+	</form>
+</div>
+
+
+
+
+
+
+
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}

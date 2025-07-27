@@ -1,0 +1,95 @@
+﻿@using Articalproject.Helper
+@using Articalproject.Models.Identity
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> _userManager;
+@inject IHttpContextAccessor _contextAccessor;
+@inject SignInManager<User> _signInManager;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+</head>
+<body dir=@(CultureHelper.IsRightToLeft()?"rtl":"ltr")>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary container">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a asp-controller="Product" asp-action="Index" class="nav-link">Products</a>
+                    </li>   
+                    <li class="nav-item">
+                        <a asp-controller="Category" asp-action="Index" class="nav-link">Categeries</a>
+                    </li>                   
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="Privacy" class="nav-link">Privacy</a>
+                    </li>
+@*                     @if (_signInManager.IsSignedIn(User)&&User.IsInRole("Admin"))
+                    { *@
+                        
+                        <li class="nav-item">
+                            <a asp-controller="Role" asp-action="Index" class="nav-link">Roles</a>
+                        </li> 
+                        <li class="nav-item">
+                            <a asp-controller="User" asp-action="Index" class="nav-link">Users</a>
+                    </li> 
+                    <li class="nav-item">
+                            <a asp-controller="Claim" asp-action="Index" class="nav-link">Claims</a>
+                    </li>
+                    @* } *@
+
+            </ul>
+            
+            <ul class="navbar-nav ml-auto">
+                
+                <li class="nav-item mt-2">
+                         <partial name="_SelectLanguagePartial"></partial>
+                </li>
+          
+                @if (_signInManager.IsSignedIn(User))
+                    {
+                         <li class="nav-item">
+                            <form asp-action="Logout" asp-controller="Account" method="post">
+                                <button type="submit" class="nav-link btn btn-link py=0 ">
+                                    Logout @User.Identity.Name
+                                    </button>
+                            </form>
+
+                        </li>
+                    }
+                    else
+                    {
+                    <li class="nav-item">
+                       <a asp-controller="Account" asp-action="Register" class="nav-link">Register</a>
+                   </li>
+                   <li class="nav-item">
+                       <a asp-controller="Account" asp-action="Login" class="nav-link">LogIn</a>
+                   </li>
+                    }
+ 
+
+            </ul>
+ 
+        </div>
+    </nav>
+</div>
+
+<div class="container">
+    @RenderBody()
+</div>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+@if (IsSectionDefined("Scripts"))
+{
+    @RenderSection("Scripts", required: false)
+}
+
+</body>
+</html>

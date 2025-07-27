@@ -1,0 +1,35 @@
+﻿@model IEnumerable<GetUsersListViewModel>;
+
+	<div>
+	<p>
+		<a asp-action="Create" class ="btn btn-primary">Create New Role</a>
+	</p>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>@Html.DisplayNameFor(M => M.Name)</th>
+			<th>@Html.DisplayNameFor(M => M.Address)</th>
+			<th>@Html.DisplayNameFor(M => M.Email)</th>
+		</tr>
+	</thead>
+	<tbody>
+
+			@foreach (var item in Model)
+			{
+					<tr>
+						<td>@item.Name</td>
+						<td>@item.Address</td>
+						<td>@item.Email</td>
+						<td>
+						<a asp-action="Details" asp-route-Id="@item.Id"class ="btn btn-info">Detaills</a>
+						</td>
+						<td><a asp-action="Update" asp-route-Id="@item.Id" class ="btn btn-primary">Edit</a></td>
+						<td><a asp-action="Delete" asp-route-Id="@item.Id" class ="btn btn-danger">Delete</a></td>
+							<td><a asp-action="ManageUsereClaims" asp-route-userId="@item.Id" class ="btn btn-secondary">Manage Claims</a></td>
+						<td><a asp-action="ManageRoleInUser" asp-route-userId="@item.Id" class ="btn btn-secondary">Manage Role</a></td>
+					</tr>
+			}
+	</tbody>
+</table>
+</div>

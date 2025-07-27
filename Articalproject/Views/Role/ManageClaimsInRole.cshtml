@@ -1,0 +1,28 @@
+﻿@model ManageRoleClaimViewModel
+
+
+
+<form method="post" asp-route-roleId="@ViewBag.roleId">
+    <div class="card">
+        <div class="card-header">
+            <h2>Update Users In This Role</h2>
+        </div>
+        <div class="card-body">
+             <input type="hidden" asp-for="@Model.RoleId" />
+            @for (int i = 0; i < Model.Claims.Count; i++)
+            {
+                            <div class="form-check m-1">
+                                     <input type="hidden" asp-for="@Model.Claims[i].ClaimType" />
+                                <input asp-for="@Model.Claims[i].IsSelected" class="form-check-input" />
+                                <label asp-for="@Model.Claims[i].IsSelected" class="form-check-label">
+                        @Model.Claims[i].ClaimType
+                                </label>
+                            </div>
+            }
+            <div asp-validation-summary="All" class="text-danger"></div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary w-auto">SaveChanges</button>
+        </div>
+    </div>
+</form>

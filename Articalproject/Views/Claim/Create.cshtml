@@ -1,0 +1,45 @@
+﻿@model AddClaimViewModel
+
+<div >
+	<form asp-action="Create" method="post" >
+		<div asp-validation-summary="All"></div>            
+		<Label>NameAr</Label>
+		<div>
+			<input asp-for="NameAr" class="form-control" />
+			<span asp-validation-for="NameAr" class="text-danger" ></span>
+		</div>
+		<Label>NameEn</Label>
+		<div>
+			<input asp-for="NameEn" class="form-control" />
+			<span asp-validation-for="NameEn" class="text-danger" ></span>
+		</div>
+		<div>
+			<label>IsUserClaim</label>
+			<select  asp-for="IsUserClaim" class="form-control" asp-items="ViewBag.Chooses">
+
+			</select>
+			<span asp-validation-for="IsUserClaim" class="text-danger"></span>
+		</div>
+		<div>
+			<label>IsRoleClaim</label>
+			<select  asp-for="IsRoleClaim" class="form-control" asp-items="ViewBag.Chooses">
+
+			</select>
+			<span asp-validation-for="IsRoleClaim" class="text-danger"></span>
+		</div>
+		<input type="submit" value="save" class="btn btn-primary"/>
+	</form>
+</div>
+
+
+
+
+
+
+
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}
