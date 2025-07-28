@@ -13,6 +13,7 @@ namespace Articalproject.DependencyInjections
             Services.AddTransient<IFileServiece, FileServices>();
 
             Services.AddTransient<IClaimService, ClaimService>();
+            Services.AddTransient<IEmailSender, EmailSender>();
 
             
             

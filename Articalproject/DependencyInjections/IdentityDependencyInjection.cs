@@ -26,7 +26,7 @@ namespace Articalproject.DependencyInjections
 
 
                 Opt.SignIn.RequireConfirmedPhoneNumber = false;
-                Opt.SignIn.RequireConfirmedEmail = false;
+                Opt.SignIn.RequireConfirmedEmail = true;
                 
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()

@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
+using Articalproject.Services.InterFaces;
 
 namespace Articalproject.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IEmailSender _emailSender;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IStringLocalizer<SharedResources> _sharedResources;
@@ -18,12 +20,13 @@ namespace Articalproject.Controllers
         public AccountController(UserManager<User> userManager ,
                                  SignInManager<User> signInManager,
                                  IStringLocalizer<SharedResources> sharedResources ,
-                                 IMapper mapper)
+                                 IMapper mapper, IEmailSender emailSender)
         {
             _userManager = userManager;
             _sharedResources=sharedResources;
             _signInManager = signInManager;
             _mapper = mapper;
+            _emailSender = emailSender;
         }
 
         [HttpGet]
@@ -114,7 +117,12 @@ namespace Articalproject.Controllers
                         var result = await _userManager.CreateAsync(NewUser,register.Password);
                         if (result.Succeeded)
                         {
-                           await _signInManager.SignInAsync(NewUser, isPersistent:false);
+                            var token= await _userManager.GenerateEmailConfirmationTokenAsync(NewUser);
+                            var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = NewUser.Id, token = token }, Request.Scheme);
+                           await _emailSender.SendEmailAsync(NewUser.Email, "Confirm your email", confirmationLink);
+                            Console.WriteLine(confirmationLink);
+
+                           // await _signInManager.SignInAsync(NewUser, isPersistent:false);
                            return RedirectToAction("Index", "Home");
                         }
                         foreach(var error in result.Errors)
@@ -162,6 +170,25 @@ namespace Articalproject.Controllers
         {
             var user = await _userManager.FindByEmailAsync(email);
             return user == null ? Json(true) : Json(_sharedResources["EmailIsExist"].Value);
+        }
+
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
+            {
+                return NotFound();
+            }
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return View("Error");
+            }
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            if (result.Succeeded)
+            {
+                return RedirectToAction(nameof(Login));
+            }
+            return View("Error");
         }
     }
 }
