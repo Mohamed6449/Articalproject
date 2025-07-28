@@ -8,5 +8,6 @@ namespace Articalproject.Controllers
         {
             return View();
         }
+
     }
 }

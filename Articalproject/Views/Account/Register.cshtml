@@ -1,4 +1,7 @@
 ﻿@model RegisterViewModel
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResources> _SharedResources;
+
 
 <section class="vh-100 bg-image mt-3 mb-3"
   style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
@@ -11,28 +14,28 @@
               <h2 class="text-uppercase text-center mb-5">Create an account</h2>
 
               <form asp-action="Register" method="post">
-                  <div asp-validation-summary="All"></div>    
+                  <div asp-validation-summary="All"></div>
 
-
+                                @Html.AntiForgeryToken()
 
 
                  <div data-mdb-input-init class="form-outline mb-4">
-                  <label class="form-label">Name Arabic</label>
+                                    <label class="form-label">@_SharedResources[SharedResourcesKeys.NameAr]</label>
                   <input asp-for="NameAr" class="form-control form-control-lg" />
                   <span asp-validation-for="NameAr" class="text-danger" ></span>
 
                 </div>
 
                   <div data-mdb-input-init class="form-outline mb-4">
-                  <label class="form-label">Name English</label>
+                                    <label class="form-label">@_SharedResources[SharedResourcesKeys.NameEn]</label>
                   <input asp-for="NameEn" class="form-control form-control-lg" />
-                  <span asp-validation-for="NameAr" class="text-danger" ></span>
+                  <span asp-validation-for="NameEn" class="text-danger" ></span>
 
                 </div>                
 
 
                 <div data-mdb-input-init class="form-outline mb-4">
-                  <label class="form-label">Address</label>
+                                    <label class="form-label">@_SharedResources[SharedResourcesKeys.Address]</label>
                   <input asp-for="Address" class="form-control form-control-lg" />
                   <span asp-validation-for="Address" class="text-danger" ></span>
 
@@ -46,26 +49,26 @@
                 </div>
 
                 <div data-mdb-input-init class="form-outline mb-4">
-                  <label class="form-label">Your Email</label>
+                                    <label class="form-label">@_SharedResources[SharedResourcesKeys.Email]</label>
                   <input asp-for="Email" class="form-control form-control-lg" />
                   <span asp-validation-for="Email" class="text-danger" ></span>
 
                 </div>
 
                 <div data-mdb-input-init class="form-outline mb-4">
-                  <label class="form-label" >Password</label>
+                                    <label class="form-label">@_SharedResources[SharedResourcesKeys.Password]</label>
                   <input asp-for="Password" type="password" class="form-control form-control-lg" />
                   <span asp-validation-for="Password" class="text-danger" ></span>
                 </div>
 
                 <div data-mdb-input-init class="form-outline mb-4">
-                  <label class="form-label" >Repeat your password</label>
+                                    <label class="form-label">@_SharedResources[SharedResourcesKeys.ConfirmPassword]</label>
                   <input asp-for="ConfirmPassword" type="password" class="form-control form-control-lg" />
                   <span asp-validation-for="ConfirmPassword" class="text-danger" ></span>
                 </div>
 
                 <div class="d-flex justify-content-center">
-                  <button  type="submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
+                  <button  type="submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">@_SharedResources[SharedResourcesKeys.Register]</button>
                 </div>
 
                 <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="#!"

@@ -1,7 +1,4 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-
+﻿
 <header class="text-center text-white bg-primary masthead">
     <div class="container">
         <img class="img-fluid d-block mx-auto mb-5" src="~/img/profile.png">
@@ -51,7 +48,8 @@
                 <div class="card" style="margin: 10;">
                     <img class="card-img-top w-100 d-block" src="~/img/portfolio/cabin.png">
                     <div class="card-body">
-                        <h4 class="text-center card-title" style="font-family: Cairo, sans-serif;">عنوان المقالة</h4><a class="btn btn-primary float-end" role="button" style="font-family: Cairo, sans-serif;width: 149.875px;" href="Article.html">قراءة</a>
+                        <h4 class="text-center card-title" style="font-family: Cairo, sans-serif;">عنوان المقالة</h4>
+                        <a class="btn btn-primary float-end" role="button" style="font-family: Cairo, sans-serif;width: 149.875px;" asp-action="Article" asp-controller="Home">قراءة</a>
                     </div>
                 </div>
             </div>

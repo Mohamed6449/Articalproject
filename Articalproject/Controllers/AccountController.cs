@@ -33,9 +33,10 @@ namespace Articalproject.Controllers
             var model = new LoginViewModel() {
                 ReturnUrl = ReturnUrl
             };
-            return View();
+            return View(model);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         
         public async Task<IActionResult> Login(LoginViewModel model)
         {
@@ -81,7 +82,10 @@ namespace Articalproject.Controllers
         }
 
 
-
+        public IActionResult Admin()
+        {
+            return View();
+        }
 
 
 
@@ -92,6 +96,8 @@ namespace Articalproject.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Register(RegisterViewModel register)
         {
             if (ModelState.IsValid)
@@ -99,20 +105,25 @@ namespace Articalproject.Controllers
                var user=await _userManager.FindByEmailAsync(register.Email);
 
                 if (user == null)
+               
                 {
-                    var NewUser = _mapper.Map<User>(register);
-                    var result = await _userManager.CreateAsync(NewUser,register.Password);
-                    if (result.Succeeded)
+                     user=await _userManager.FindByNameAsync(register.UserName);
+                    if (user == null)
                     {
-                       await _signInManager.SignInAsync(NewUser, isPersistent:false);
-                       return RedirectToAction("Index", "Home");
-                    }
-                    foreach(var error in result.Errors)
-                    {
+                        var NewUser = _mapper.Map<User>(register);
+                        var result = await _userManager.CreateAsync(NewUser,register.Password);
+                        if (result.Succeeded)
+                        {
+                           await _signInManager.SignInAsync(NewUser, isPersistent:false);
+                           return RedirectToAction("Index", "Home");
+                        }
+                        foreach(var error in result.Errors)
+                        {
 
-                         ModelState.AddModelError("",error.Description);
+                             ModelState.AddModelError("",error.Description);
+                        }
+                        return View(register);
                     }
-                    return View(register);
                 }
                 ModelState.AddModelError("","User is already Exist");
 
@@ -125,6 +136,8 @@ namespace Articalproject.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -135,6 +148,20 @@ namespace Articalproject.Controllers
         public IActionResult AccessDenied(string returnUrl)
         {
             return View();
+        }
+
+        [AcceptVerbs("Get", "Post")]
+        public async Task<IActionResult> IsUserNameAvailable(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            return user == null ? Json(true) : Json(_sharedResources[SharedResourcesKeys.UserNameIsExist]);
+        }
+
+        [AcceptVerbs("Get", "Post")]
+        public async Task<IActionResult> IsEmailAvailable(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            return user == null ? Json(true) : Json(_sharedResources[SharedResourcesKeys.EmailIsExist]);
         }
     }
 }

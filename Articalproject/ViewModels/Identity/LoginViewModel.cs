@@ -5,7 +5,8 @@ namespace Articalproject.ViewModels.Identity
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage ="RequireEmail")]
+
+        [Required(ErrorMessage = "RequireEmail")]
         public string Email { get; set; }
 
         [Required(ErrorMessage ="Please enter your password")]

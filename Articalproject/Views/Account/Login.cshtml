@@ -1,4 +1,6 @@
 ﻿@model LoginViewModel;
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResources> _SharedResources;
 
 <section class="vh-100 bg-image mt-3 mb-3"
   style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
@@ -11,8 +13,9 @@
               <h2 class="text-uppercase text-center mb-5">LogIn</h2>
 
               <form asp-action="Login" method="post">
-                  <input asp-for="ReturnUrl" type="hidden"/>
+                   @Html.AntiForgeryToken()
                   <div asp-validation-summary="All"></div>      
+                  <input asp-for="ReturnUrl" type="hidden"/>
                 <div data-mdb-input-init class="form-outline mb-4">
                   <label class="form-label">Email</label>
                   <input asp-for="Email" class="form-control form-control-lg" />

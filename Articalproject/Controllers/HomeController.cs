@@ -16,6 +16,7 @@ namespace Articalproject.Controllers
 
         public IActionResult Index()
         {
+            ViewData["Title"] = "Home Page";
             return View();
         }
 
@@ -40,6 +41,15 @@ namespace Articalproject.Controllers
             );
 
             return LocalRedirect(returnUrl);
+        }
+
+        public IActionResult Article()
+        {
+            
+
+
+
+            return View();
         }
     }
 }

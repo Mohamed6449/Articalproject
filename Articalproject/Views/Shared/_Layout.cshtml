@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Articalproject.Helper
+
+<!DOCTYPE html>
+
 <html style="font-family: Cairo, sans-serif;">
 
 <head>
@@ -49,7 +52,7 @@
     <link rel="stylesheet" href="~/css/Vertical-Left-SideBar-by-Jigar-Mistry.css">
 </head>
 
-<body id="page-top" data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="72">
+<body dir=@(CultureHelper.IsRightToLeft() ? "rtl" : "ltr") id="page-top" data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="72">
     <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-secondary text-uppercase" id="mainNav">
         <div class="container">
             <a class="navbar-brand" href="index.html" style="font-family: Cairo, sans-serif;">مقالاتي</a><button data-bs-toggle="collapse" data-bs-target="#navbarResponsive" class="navbar-toggler text-white bg-primary navbar-toggler-right text-uppercase rounded" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
@@ -57,8 +60,8 @@
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
-                    <li class="nav-item"><a class="nav-link" href="#" style="font-family: Cairo, sans-serif;">اشتراك</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" style="font-family: Cairo, sans-serif;">تسجيل الدخول</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Register" style="font-family: Cairo, sans-serif;">اشتراك</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login" style="font-family: Cairo, sans-serif;">تسجيل الدخول</a></li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#about" style="font-family: Cairo, sans-serif;">من نحن؟</a></li>
@@ -69,6 +72,11 @@
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="index.html" style="font-family: Cairo, sans-serif;">الرئيسة</a></li>
                     <li class="nav-item mx-0 mx-lg-1"></li>
                 </ul><a class="btn btn-primary" role="button" style="font-family: Cairo, sans-serif;" href="Admin.html">لوحة التحكم</a>
+                <ul class="navbar-nav ml-auto">
+                <li class="nav-item mt-2">
+                    <partial name="_SelectLanguagePartial"></partial>
+                </li>
+                </ul>
             </div>
         </div>
     </nav>

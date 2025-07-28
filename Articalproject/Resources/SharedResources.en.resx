@@ -123,9 +123,6 @@
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="NameArIsRequired" xml:space="preserve">
-    <value>Name Arabic Is Required</value>
-  </data>
   <data name="Price" xml:space="preserve">
     <value>Price value</value>
   </data>
@@ -134,5 +131,41 @@
   </data>
   <data name="UserNameOrPassIsWrong" xml:space="preserve">
     <value>UserName Or Password Is Wrong</value>
+  </data>
+  <data name="NameArIsRequired" xml:space="preserve">
+    <value>Name Arabic Is Required</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="NameAr" xml:space="preserve">
+    <value>Name Arabic</value>
+  </data>
+  <data name="NameEn" xml:space="preserve">
+    <value>Name English</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="The password and Confirmation password not match" xml:space="preserve">
+    <value>The password and Confirmation password not match</value>
+  </data>
+  <data name="UserNameIsExist" xml:space="preserve">
+    <value>UserName Is Exist</value>
+  </data>
+  <data name="EmailIsExist" xml:space="preserve">
+    <value>Email Is Exist</value>
+  </data>
+  <data name="NameEnIsRequired" xml:space="preserve">
+    <value>Name English is Required</value>
   </data>
 </root>

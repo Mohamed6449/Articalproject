@@ -1,21 +1,25 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Articalproject.ViewModels.Identity
 {
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "NameArIsRequired")]
         public string NameAr { get; set; }
-        [Required]
+        [Required(ErrorMessage = "NameEnIsRequired")]
         public string NameEn { get; set; }
 
         public string? Address { get; set; }
 
         [Required]
+        [Remote("IsUserNameAvailable", "Account", ErrorMessage = "UserNameIsExist")]
         public string UserName { get; set; }
 
         [Required]
         [EmailAddress]
+        [Remote("IsEmailAvailable", "Account", ErrorMessage = "EmailIsExist")]
+
         public string Email { get; set; }
 
         [Required]
