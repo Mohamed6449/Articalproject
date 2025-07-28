@@ -118,54 +118,84 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Id" xml:space="preserve">
-    <value>التسلسل</value>
+    <value>Id</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="Price" xml:space="preserve">
-    <value>السعر</value>
+    <value>Price value</value>
   </data>
   <data name="RequireEmail" xml:space="preserve">
-    <value>اسم المستخدم او الاميل مطلوب</value>
+    <value>please enter email</value>
   </data>
   <data name="UserNameOrPassIsWrong" xml:space="preserve">
-    <value>اسم المستخدم او كلمة المرور خطا</value>
+    <value>UserName Or Password Is Wrong</value>
   </data>
   <data name="NameArIsRequired" xml:space="preserve">
-    <value>الاسم  العربي مطلوب </value>
+    <value>Name Arabic Is Required</value>
   </data>
   <data name="ConfirmPassword" xml:space="preserve">
-    <value>تاكيد كلمة السر</value>
+    <value>Confirm Password</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>كلمة السر</value>
+    <value>Password</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value>تسجيل</value>
+    <value>Register</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value>ادخل الاميل</value>
+    <value>Email</value>
   </data>
   <data name="NameAr" xml:space="preserve">
-    <value>الاسم بالعربي</value>
+    <value>Name Arabic</value>
   </data>
   <data name="NameEn" xml:space="preserve">
-    <value>الاسم بالانجلش</value>
+    <value>Name English</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value>العنوان</value>
+    <value>Address</value>
   </data>
   <data name="The password and Confirmation password not match" xml:space="preserve">
-    <value>الباسورد غير متطابق </value>
+    <value>The password and Confirmation password not match</value>
   </data>
   <data name="UserNameIsExist" xml:space="preserve">
-    <value>اسم المستخدم مستخدم بالفعل</value>
+    <value>UserName Is Exist</value>
   </data>
   <data name="EmailIsExist" xml:space="preserve">
-    <value>الاميل مستخدم بالفعل</value>
+    <value>Email Is Exist</value>
   </data>
   <data name="NameEnIsRequired" xml:space="preserve">
-    <value>الاسم الانجليزي مطلوب</value>
+    <value>Name English is Required</value>
+  </data>
+  <data name="ConfirmPasswordisrequired" xml:space="preserve">
+    <value>Confirm Password is required</value>
+  </data>
+  <data name="Passwordisrequired" xml:space="preserve">
+    <value>Password is required</value>
+  </data>
+  <data name="UserNameisrequired" xml:space="preserve">
+    <value>UserName is required</value>
+  </data>
+  <data name="Emailisrequired" xml:space="preserve">
+    <value>Email is required</value>
+  </data>
+  <data name="CreateAnAccount" xml:space="preserve">
+    <value>Create An Account</value>
+  </data>
+  <data name="LoginHer" xml:space="preserve">
+    <value>Login her</value>
+  </data>
+  <data name="HaveAlreadyAnAccount" xml:space="preserve">
+    <value>Have Already An Account?</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>UserName</value>
+  </data>
+  <data name="LogIn" xml:space="preserve">
+    <value>LogIn</value>
+  </data>
+  <data name="RemeberMe" xml:space="preserve">
+    <value>Remeber Me</value>
   </data>
 </root>

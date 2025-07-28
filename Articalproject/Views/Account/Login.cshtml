@@ -10,21 +10,21 @@
         <div class="col-12 col-md-9 col-lg-7 col-xl-6">
           <div class="card" style="border-radius: 15px;">
             <div class="card-body p-5">
-              <h2 class="text-uppercase text-center mb-5">LogIn</h2>
+              <h2 class="text-uppercase text-center mb-5">@_SharedResources[SharedResourcesKeys.LogIn]</h2>
 
               <form asp-action="Login" method="post">
                    @Html.AntiForgeryToken()
                   <div asp-validation-summary="All"></div>      
                   <input asp-for="ReturnUrl" type="hidden"/>
                 <div data-mdb-input-init class="form-outline mb-4">
-                  <label class="form-label">Email</label>
+                  <label class="form-label">@_SharedResources[SharedResourcesKeys.Email]</label>
                   <input asp-for="Email" class="form-control form-control-lg" />
                   <span asp-validation-for="Email" class="text-danger" ></span>
 
                 </div>
 
                 <div data-mdb-input-init class="form-outline mb-4">
-                  <label class="form-label" >Password</label>
+                  <label class="form-label" >@_SharedResources[SharedResourcesKeys.Password]</label>
                   <input asp-for="Password" type="password" class="form-control form-control-lg" />
                   <span asp-validation-for="Password" class="text-danger" ></span>
                 </div>
@@ -32,13 +32,13 @@
             <div class="form-group form-check">
                 <label class="form-check-label">
                 <input class="form-check-input" asp-for="RemberMe" />
-                 Remeber Me
+                 @_SharedResources[SharedResourcesKeys.RemeberMe]
                 </label>
             </div>
             <br />
 
                 <div class="d-flex justify-content-center">
-                  <button  type="submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Login</button>
+                  <button  type="submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">@_SharedResources[SharedResourcesKeys.LogIn]</button>
                 </div>
 
               </form>

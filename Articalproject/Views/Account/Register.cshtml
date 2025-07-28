@@ -3,7 +3,7 @@
 @inject IStringLocalizer<SharedResources> _SharedResources;
 
 
-<section class="vh-100 bg-image mt-3 mb-3"
+<section class=" bg-image mt-3 mb-3"
   style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
   <div class="mask d-flex align-items-center h-100 gradient-custom-3">
     <div class="container h-100">
@@ -11,7 +11,7 @@
         <div class="col-12 col-md-9 col-lg-7 col-xl-6">
           <div class="card" style="border-radius: 15px;">
             <div class="card-body p-5">
-              <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+              <h2 class="text-uppercase text-center mb-5">@_SharedResources[SharedResourcesKeys.CreateAnAccount]</h2>
 
               <form asp-action="Register" method="post">
                   <div asp-validation-summary="All"></div>
@@ -42,7 +42,7 @@
                 </div>
                 
                 <div data-mdb-input-init class="form-outline mb-4">
-                  <label class="form-label">UserName</label>
+                  <label class="form-label">@_SharedResources[SharedResourcesKeys.UserName]</label>
                   <input asp-for="UserName" class="form-control form-control-lg" />
                   <span asp-validation-for="UserName" class="text-danger" ></span>
 
@@ -71,8 +71,8 @@
                   <button  type="submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">@_SharedResources[SharedResourcesKeys.Register]</button>
                 </div>
 
-                <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="#!"
-                    class="fw-bold text-body"><u>Login here</u></a></p>
+                <p class="text-center text-muted mt-5 mb-0">@_SharedResources[SharedResourcesKeys.HaveAlreadyAnAccount] <a asp-controller="Account" asp-action="Login"
+                    class="fw-bold text-body"><u>@_SharedResources[SharedResourcesKeys.LoginHer]</u></a></p>
 
               </form>
 

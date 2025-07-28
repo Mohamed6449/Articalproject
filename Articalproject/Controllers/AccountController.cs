@@ -28,7 +28,7 @@ namespace Articalproject.Controllers
 
         [HttpGet]
         
-        public IActionResult Login(string ReturnUrl)
+        public IActionResult Login(string? ReturnUrl)
         {
             var model = new LoginViewModel() {
                 ReturnUrl = ReturnUrl
@@ -154,14 +154,14 @@ namespace Articalproject.Controllers
         public async Task<IActionResult> IsUserNameAvailable(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
-            return user == null ? Json(true) : Json(_sharedResources[SharedResourcesKeys.UserNameIsExist]);
+            return user == null ? Json(true) : Json(_sharedResources["UserNameIsExist"].Value);
         }
 
         [AcceptVerbs("Get", "Post")]
         public async Task<IActionResult> IsEmailAvailable(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            return user == null ? Json(true) : Json(_sharedResources[SharedResourcesKeys.EmailIsExist]);
+            return user == null ? Json(true) : Json(_sharedResources["EmailIsExist"].Value);
         }
     }
 }

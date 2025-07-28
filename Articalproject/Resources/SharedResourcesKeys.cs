@@ -16,11 +16,24 @@
 		public const string Register = "Register";
 
 		public const string Email = "Email";
+		public const string UserName = "UserName";
 		public const string NameAr = "NameAr";
 		public const string NameEn = "NameEn";
 		public const string Address = "Address";
 		public const string UserNameIsExist = "UserNameIsExist";
 		public const string EmailIsExist = "EmailIsExist";
+
+		public const string UserNameisrequired= "UserNameisrequired";
+		public const string Emailisrequired= "Emailisrequired";
+		public const string Passwordisrequired = "Passwordisrequired";
+		public const string ConfirmPasswordisrequired = "ConfirmPasswordisrequired";
+		public const string CreateAnAccount = "CreateAnAccount";
+
+		public const string LoginHer = "LoginHer";
+		public const string HaveAlreadyAnAccount = "HaveAlreadyAnAccount";
+		public const string LogIn = "LogIn";
+		public const string RemeberMe = "RemeberMe";
+
 
 
 		

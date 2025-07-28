@@ -12,20 +12,21 @@ namespace Articalproject.ViewModels.Identity
 
         public string? Address { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "UserNameisrequired")]
         [Remote("IsUserNameAvailable", "Account", ErrorMessage = "UserNameIsExist")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Emailisrequired")]
         [EmailAddress]
         [Remote("IsEmailAvailable", "Account", ErrorMessage = "EmailIsExist")]
 
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Passwordisrequired")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        [Required(ErrorMessage = "ConfirmPasswordisrequired")]
         [DataType(DataType.Password)]
         [Compare(nameof(Password),ErrorMessage ="The password and Confirmation password not match")]
         public string ConfirmPassword { get; set;}
