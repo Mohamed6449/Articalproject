@@ -33,6 +33,7 @@ namespace Articalproject.Controllers
         
         public IActionResult Login(string? ReturnUrl)
         {
+            
             var model = new LoginViewModel() {
                 ReturnUrl = ReturnUrl
             };
@@ -67,6 +68,10 @@ namespace Articalproject.Controllers
                 {
                     ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.UserNameOrPassIsWrong]);
                     return View(model);
+                }
+                if (!user.EmailConfirmed)
+                {
+                    return RedirectToAction(nameof(EmailNotConfirmed));
                 }
 
                 var result=await _signInManager.PasswordSignInAsync(user, model.Password, model.RemberMe, false);
@@ -120,10 +125,10 @@ namespace Articalproject.Controllers
                             var token= await _userManager.GenerateEmailConfirmationTokenAsync(NewUser);
                             var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = NewUser.Id, token = token }, Request.Scheme);
                            await _emailSender.SendEmailAsync(NewUser.Email, "Confirm your email", confirmationLink);
-                            Console.WriteLine(confirmationLink);
-
+                      
+                            TempData["ConfirmEmail"] =_sharedResources[SharedResourcesKeys.ConfirmEmailMessage].Value;
                            // await _signInManager.SignInAsync(NewUser, isPersistent:false);
-                           return RedirectToAction("Index", "Home");
+                           return RedirectToAction(nameof(Login));
                         }
                         foreach(var error in result.Errors)
                         {
@@ -189,6 +194,43 @@ namespace Articalproject.Controllers
                 return RedirectToAction(nameof(Login));
             }
             return View("Error");
+        }
+
+
+
+
+
+        public IActionResult EmailNotConfirmed()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResendConfirmation(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                TempData["Failed"] =_sharedResources[SharedResourcesKeys.EmailProblem].Value;
+                return RedirectToAction(nameof(Login));
+            }
+
+            if (user.EmailConfirmed)
+            {
+                TempData["Success"] = _sharedResources[SharedResourcesKeys.EmailConfirmed].Value;
+                return RedirectToAction(nameof(Login));
+            }
+
+            // إنشاء التوكن والرابط
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = token }, Request.Scheme);
+
+            // إرسال الإيميل
+            await _emailSender.SendEmailAsync(email, "Confirm your email", confirmationLink);
+
+            TempData["ConfirmEmail"] =_sharedResources[SharedResourcesKeys.ConfirmEmailMessage].Value;
+             return RedirectToAction(nameof(Login));
         }
     }
 }

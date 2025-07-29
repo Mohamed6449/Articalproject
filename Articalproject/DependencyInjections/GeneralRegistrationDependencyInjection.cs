@@ -23,6 +23,8 @@ namespace Articalproject.DependencyInjections
 
             Services.AddHttpContextAccessor();
 
+            Services.AddMemoryCache();
+
             Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 

@@ -198,4 +198,13 @@
   <data name="RemeberMe" xml:space="preserve">
     <value>تذكرني</value>
   </data>
+  <data name="ConfirmEmailMessage" xml:space="preserve">
+    <value>تم ارسال رسالة تاكيد الاميل الي حسابك</value>
+  </data>
+  <data name="EmailProblem" xml:space="preserve">
+    <value>يوجد مشكلة في الاميل </value>
+  </data>
+  <data name="EmailConfirmed" xml:space="preserve">
+    <value>تم تاكيد هذا الاميل بالفعل</value>
+  </data>
 </root>

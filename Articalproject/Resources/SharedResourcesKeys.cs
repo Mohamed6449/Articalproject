@@ -6,6 +6,7 @@
 		public const string Price = "Price";
 		
 		public const string NameArIsRequired = "NameArIsRequired";
+		public const string ConfirmEmailMessage = "ConfirmEmailMessage";
 		public const string NameEnIsRequired = "NameEnIsRequired";
 		public const string RequireEmail = "RequireEmail";
 		public const string UserNameOrPassIsWrong = "UserNameOrPassIsWrong";
@@ -33,6 +34,8 @@
 		public const string HaveAlreadyAnAccount = "HaveAlreadyAnAccount";
 		public const string LogIn = "LogIn";
 		public const string RemeberMe = "RemeberMe";
+		public const string EmailProblem = "EmailProblem";
+		public const string EmailConfirmed = "EmailConfirmed";
 
 
 

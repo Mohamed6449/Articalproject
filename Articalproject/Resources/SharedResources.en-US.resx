@@ -198,4 +198,13 @@
   <data name="RemeberMe" xml:space="preserve">
     <value>Remeber Me</value>
   </data>
+  <data name="ConfirmEmailMessage" xml:space="preserve">
+    <value>An email confirmation message has been sent to your account.</value>
+  </data>
+  <data name="EmailProblem" xml:space="preserve">
+    <value>There was a problem with the email you entered.</value>
+  </data>
+  <data name="EmailConfirmed" xml:space="preserve">
+    <value>This email has already been confirmed</value>
+  </data>
 </root>
