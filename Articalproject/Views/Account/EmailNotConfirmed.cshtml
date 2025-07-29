@@ -1,18 +1,21 @@
 ﻿@using Articalproject.Helper
 @model string
-if (@(CultureHelper.IsArabic()){
-	@{
-    ViewData["Title"] = "تأكيد البريد الإلكتروني";
-}
 
-<div class="text-center mt-5">
+
+@if(CultureHelper.IsArabic()){
+
+    ViewData["Title"] = "تأكيد البريد الإلكتروني";
+    
+
+    <div class="text-center mt-5">
     <h2>🚫 لم يتم تأكيد البريد الإلكتروني</h2>
     <p>البريد الإلكتروني: <strong>@Model</strong></p>
     <p>من فضلك راجع بريدك الإلكتروني أو اضغط لإرسال رابط التأكيد مرة أخرى.</p>
 
     @if (ViewBag.CanResend == true)
     {
-        <form asp-action="ResendConfirmationEmail" method="post">
+        <form asp-action="ResendConfirmation" method="post">
+            @Html.AntiForgeryToken()
             <input type="hidden" name="email" value="@Model" />
             <button type="submit" class="btn btn-primary">📧 إرسال مرة أخرى</button>
         </form>
@@ -24,12 +27,11 @@ if (@(CultureHelper.IsArabic()){
     }
 </div>
 }
-
 else{
 
-@{
+
     ViewData["Title"] = "Email Confirmation Required";
-}
+
 
 <div class="text-center mt-5">
     <h2>🚫 Email Not Confirmed</h2>
@@ -38,7 +40,8 @@ else{
 
     @if (ViewBag.CanResend == true)
     {
-        <form asp-action="ResendConfirmationEmail" method="post">
+        <form asp-action="ResendConfirmation" method="post">
+            @Html.AntiForgeryToken()
             <input type="hidden" name="email" value="@Model" />
             <button type="submit" class="btn btn-primary">📧 Resend Confirmation Email</button>
         </form>

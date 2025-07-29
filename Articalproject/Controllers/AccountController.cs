@@ -1,17 +1,21 @@
-﻿using AutoMapper;
-using Articalproject.Models.Identity;
+﻿using Articalproject.Models.Identity;
 using Articalproject.Resources;
+using Articalproject.Services.InterFaces;
 using Articalproject.ViewModels.Identity;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
-using Articalproject.Services.InterFaces;
 
 namespace Articalproject.Controllers
 {
+
     public class AccountController : Controller
     {
+        private readonly IMemoryCache _cache;
+        private readonly IAccountService _accountService;
         private readonly IEmailSender _emailSender;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
@@ -20,13 +24,16 @@ namespace Articalproject.Controllers
         public AccountController(UserManager<User> userManager ,
                                  SignInManager<User> signInManager,
                                  IStringLocalizer<SharedResources> sharedResources ,
-                                 IMapper mapper, IEmailSender emailSender)
+                                 IMapper mapper, IEmailSender emailSender , IAccountService accountService,
+                                  IMemoryCache cache)
         {
+            _cache = cache;
             _userManager = userManager;
             _sharedResources=sharedResources;
             _signInManager = signInManager;
             _mapper = mapper;
             _emailSender = emailSender;
+            _accountService = accountService;
         }
 
         [HttpGet]
@@ -71,7 +78,7 @@ namespace Articalproject.Controllers
                 }
                 if (!user.EmailConfirmed)
                 {
-                    return RedirectToAction(nameof(EmailNotConfirmed));
+                    return RedirectToAction("EmailNotConfirmed" , new { Id = user.Id });
                 }
 
                 var result=await _signInManager.PasswordSignInAsync(user, model.Password, model.RemberMe, false);
@@ -191,6 +198,8 @@ namespace Articalproject.Controllers
             var result = await _userManager.ConfirmEmailAsync(user, token);
             if (result.Succeeded)
             {
+                TempData["Success"] = _sharedResources[SharedResourcesKeys.EmailConfirmed].Value;
+                _cache.Remove($"resend_{userId}");
                 return RedirectToAction(nameof(Login));
             }
             return View("Error");
@@ -200,9 +209,21 @@ namespace Articalproject.Controllers
 
 
 
-        public IActionResult EmailNotConfirmed()
+        public async Task< IActionResult >EmailNotConfirmed(string Id)
         {
-            return View();
+            var user = await _userManager.FindByIdAsync(Id);
+            if (user != null)
+            {
+                var resendResult = _accountService.CanUserResend(Id);
+                var time = resendResult.remainingTime;
+                if(time!=null)
+                    ViewBag.RemainingTime =$"{time.Value.Hours}:{time.Value.Minutes}:{time.Value.Seconds}" ;
+
+                ViewBag.CanResend = resendResult.canResend;
+                return View("EmailNotConfirmed",user.Email);
+                
+            }
+            return NotFound();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -230,6 +251,7 @@ namespace Articalproject.Controllers
             await _emailSender.SendEmailAsync(email, "Confirm your email", confirmationLink);
 
             TempData["ConfirmEmail"] =_sharedResources[SharedResourcesKeys.ConfirmEmailMessage].Value;
+            _accountService.RecordResend(user.Id);
              return RedirectToAction(nameof(Login));
         }
     }
