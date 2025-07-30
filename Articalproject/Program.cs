@@ -1,6 +1,17 @@
+﻿using Serilog;
 using Articalproject.DependencyInjections;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+
+// ✳️ Configure Serilog
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day) // ملف جديد كل يوم
+    .CreateLogger();
+
+builder.Host.UseSerilog(); // استخدام Serilog بدل الـ Logger الافتراضي
+
 
 builder.Services.AddServiceDependencyInjection().AddRepositryDependencyInjection()
     .AddLocalizationDependencyInjection()
@@ -8,10 +19,6 @@ builder.Services.AddServiceDependencyInjection().AddRepositryDependencyInjection
 
 
 builder.Services.AddControllersWithViews();
-
-#region Localization
-
-#endregion
 
 var app = builder.Build();
 
