@@ -5,12 +5,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 
-// ✳️ Configure Serilog
-Log.Logger = new LoggerConfiguration()
-    .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day) // ملف جديد كل يوم
-    .CreateLogger();
 
-builder.Host.UseSerilog(); // استخدام Serilog بدل الـ Logger الافتراضي
+// ربط Serilog مع appsettings.json
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .CreateLogger();
+builder.Host.UseSerilog();
+
 
 
 builder.Services.AddServiceDependencyInjection().AddRepositryDependencyInjection()

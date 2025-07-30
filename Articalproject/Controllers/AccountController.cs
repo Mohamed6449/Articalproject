@@ -14,6 +14,7 @@ namespace Articalproject.Controllers
 
     public class AccountController : Controller
     {
+        private readonly ILogger<HomeController> _logger;
         private readonly IMemoryCache _cache;
         private readonly IAccountService _accountService;
         private readonly IEmailSender _emailSender;
@@ -25,7 +26,8 @@ namespace Articalproject.Controllers
                                  SignInManager<User> signInManager,
                                  IStringLocalizer<SharedResources> sharedResources ,
                                  IMapper mapper, IEmailSender emailSender , IAccountService accountService,
-                                  IMemoryCache cache)
+                                  IMemoryCache cache,
+                                  ILogger<HomeController> logger)
         {
             _cache = cache;
             _userManager = userManager;
@@ -34,6 +36,7 @@ namespace Articalproject.Controllers
             _mapper = mapper;
             _emailSender = emailSender;
             _accountService = accountService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -86,6 +89,8 @@ namespace Articalproject.Controllers
                 {
                     if(!string.IsNullOrEmpty(model.ReturnUrl)&& Url.IsLocalUrl(model.ReturnUrl))
                         return LocalRedirect(model.ReturnUrl);
+
+                    _logger.LogInformation("دخل المستخدم على الصفحة الرئيسية");
                     return RedirectToAction("Index","Home");
 
                 }
