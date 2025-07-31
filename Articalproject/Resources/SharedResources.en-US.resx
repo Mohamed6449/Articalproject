@@ -207,4 +207,19 @@
   <data name="EmailConfirmed" xml:space="preserve">
     <value>This email has already been confirmed</value>
   </data>
+  <data name="ErrorOccurred" xml:space="preserve">
+    <value>An error occurred during login for user</value>
+  </data>
+  <data name="AccountIsLocked" xml:space="preserve">
+    <value>Your account has been temporarily locked. Please try again later.</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Forgot Password</value>
+  </data>
+  <data name="EmailNotExist" xml:space="preserve">
+    <value>Email Not Exist</value>
+  </data>
+  <data name="SendRestPassword" xml:space="preserve">
+    <value>A password reset link has been sent to your email.</value>
+  </data>
 </root>

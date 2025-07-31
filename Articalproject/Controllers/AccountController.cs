@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
+using Serilog;
 using System.ComponentModel.DataAnnotations;
 
 namespace Articalproject.Controllers
@@ -54,51 +55,75 @@ namespace Articalproject.Controllers
         
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
                 var IsEmailValid = new EmailAddressAttribute().IsValid(model.Email);
                 var user = new User();
+                user = null;
                 if (IsEmailValid)
                 {
-
                     user = await _userManager.FindByEmailAsync(model.Email);
-                }
-                else
-                {
-                    user = await _userManager.FindByNameAsync(model.Email);
-
                 }
                 if (user == null)
                 {
-                    ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.UserNameOrPassIsWrong]);
+                    user = await _userManager.FindByNameAsync(model.Email);
+                }
+
+                if (user == null)
+                {
+                    Log.Warning("Login failed. User with email {Email} not found", model.Email);
+                    ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.EmailProblem]);
                     return View(model);
                 }
-                var check =await _userManager.CheckPasswordAsync(user,model.Password);
+
+
+
+                if (await _userManager.IsLockedOutAsync(user))
+                {
+                    _logger.LogWarning($"User {user.UserName} has been temporarily locked out due to failed login attempts.");
+                    ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.AccountIsLocked]);
+                    return View(model);
+                }
+                var check = await _userManager.CheckPasswordAsync(user, model.Password);
+
                 if (!check)
                 {
+                    Log.Warning("Login failed. Incorrect password for user {Email}", user.Email);
+
+                    await _userManager.AccessFailedAsync(user);
+
                     ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.UserNameOrPassIsWrong]);
                     return View(model);
                 }
                 if (!user.EmailConfirmed)
                 {
-                    return RedirectToAction("EmailNotConfirmed" , new { Id = user.Id });
+                    Log.Warning("Login failed. Email not confirmed for user {Email}", user.Email);
+                    return RedirectToAction("EmailNotConfirmed", new { Id = user.Id });
                 }
 
-                var result=await _signInManager.PasswordSignInAsync(user, model.Password, model.RemberMe, false);
-                 if (result.Succeeded)
+                var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RemberMe, false);
+                if (result.Succeeded)
                 {
-                    if(!string.IsNullOrEmpty(model.ReturnUrl)&& Url.IsLocalUrl(model.ReturnUrl))
+                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                         return LocalRedirect(model.ReturnUrl);
 
-                    _logger.LogInformation("دخل المستخدم على الصفحة الرئيسية");
-                    return RedirectToAction("Index","Home");
+                    Log.Information($"User {user.Email} logged in successfully", user.Email);
+                    return RedirectToAction("Index", "Home");
 
                 }
-                return View(model);
-                
-            }
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "An error occurred during login for user {Email}", model.Email);
+                ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.ErrorOccurred]);
+                return View(model);
+            }
         }
 
 
@@ -125,28 +150,41 @@ namespace Articalproject.Controllers
                var user=await _userManager.FindByEmailAsync(register.Email);
 
                 if (user == null)
-               
                 {
                      user=await _userManager.FindByNameAsync(register.UserName);
                     if (user == null)
                     {
                         var NewUser = _mapper.Map<User>(register);
                         var result = await _userManager.CreateAsync(NewUser,register.Password);
+
                         if (result.Succeeded)
                         {
-                            var token= await _userManager.GenerateEmailConfirmationTokenAsync(NewUser);
-                            var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = NewUser.Id, token = token }, Request.Scheme);
-                           await _emailSender.SendEmailAsync(NewUser.Email, "Confirm your email", confirmationLink);
-                      
-                            TempData["ConfirmEmail"] =_sharedResources[SharedResourcesKeys.ConfirmEmailMessage].Value;
+                            _logger.LogInformation("User created successfully: {Email}", NewUser.Email);
+
+                            try
+                            {
+                                var token = await _userManager.GenerateEmailConfirmationTokenAsync(NewUser);
+                                var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = NewUser.Id, token = token }, Request.Scheme);
+                                await _emailSender.SendEmailAsync(NewUser.Email, "Confirm your email", confirmationLink,1);
+                                _logger.LogInformation("Confirmation email sent to {Email}", NewUser.Email);
+                                TempData["ConfirmEmail"] =_sharedResources[SharedResourcesKeys.ConfirmEmailMessage].Value;
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger.LogError(ex, "Error sending confirmation email for user {Email}", NewUser.Email);
+                                ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.EmailProblem]);
+                                return View(register);
+                            }
                            // await _signInManager.SignInAsync(NewUser, isPersistent:false);
                            return RedirectToAction(nameof(Login));
                         }
                         foreach(var error in result.Errors)
                         {
+                            _logger.LogWarning("User creation error: {Error}", error.Description);
 
-                             ModelState.AddModelError("",error.Description);
+                            ModelState.AddModelError("",error.Description);
                         }
+
                         return View(register);
                     }
                 }
@@ -165,10 +203,23 @@ namespace Articalproject.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            try
+            {
+                var userName = User.Identity?.Name ?? "Unknown User";
+                await _signInManager.SignOutAsync();
+                _logger.LogInformation("User {UserName} has logged out.", userName);
 
-            return RedirectToAction("Index","Home");
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred during logout.");
+                return RedirectToAction("Index", "Home");
+            }
         }
+
+
 
         public IActionResult AccessDenied(string returnUrl)
         {
@@ -178,86 +229,202 @@ namespace Articalproject.Controllers
         [AcceptVerbs("Get", "Post")]
         public async Task<IActionResult> IsUserNameAvailable(string username)
         {
+            try
+            {
             var user = await _userManager.FindByNameAsync(username);
             return user == null ? Json(true) : Json(_sharedResources["UserNameIsExist"].Value);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error checking username availability for {UserName}", username);
+                return Json("");
+            }
         }
 
         [AcceptVerbs("Get", "Post")]
         public async Task<IActionResult> IsEmailAvailable(string email)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-            return user == null ? Json(true) : Json(_sharedResources["EmailIsExist"].Value);
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+                 return user == null ? Json(true) : Json(_sharedResources["EmailIsExist"].Value);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error checking email availability for {Email}", email);
+                return Json("");
+            }
+
+
         }
+        [AcceptVerbs("Get", "Post")]
+        public async Task<IActionResult> IsEmailNotAvailable(string email)
+        {
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+                 return user != null ? Json(true) : Json(_sharedResources["EmailNotExist"].Value);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error checking email availability for {Email}", email);
+                return Json("");
+            }
+
+
+        }
+
+
+
+
+
 
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
-            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
+            try
             {
-                return NotFound();
-            }
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
+                if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
+                {
+                    return NotFound();
+                }
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    _logger.LogWarning("User with ID {UserId} not found during email confirmation.", userId);
+                    return View("Error");
+                }
+                var result = await _userManager.ConfirmEmailAsync(user, token);
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("Email confirmed successfully for user {UserId}.", userId);
+                    TempData["Success"] = _sharedResources[SharedResourcesKeys.EmailConfirmed].Value;
+                    _cache.Remove($"resend_{userId}");
+                    return RedirectToAction(nameof(Login));
+                }
                 return View("Error");
             }
-            var result = await _userManager.ConfirmEmailAsync(user, token);
-            if (result.Succeeded)
+            catch (Exception ex)
             {
-                TempData["Success"] = _sharedResources[SharedResourcesKeys.EmailConfirmed].Value;
-                _cache.Remove($"resend_{userId}");
-                return RedirectToAction(nameof(Login));
+                _logger.LogError(ex, "Error confirming email for user {UserId}.", userId);
+                return View("Error");
             }
-            return View("Error");
+
         }
-
-
 
 
 
         public async Task< IActionResult >EmailNotConfirmed(string Id)
         {
-            var user = await _userManager.FindByIdAsync(Id);
-            if (user != null)
+            try
             {
-                var resendResult = _accountService.CanUserResend(Id);
-                var time = resendResult.remainingTime;
-                if(time!=null)
-                    ViewBag.RemainingTime =$"{time.Value.Hours}:{time.Value.Minutes}:{time.Value.Seconds}" ;
+                var user = await _userManager.FindByIdAsync(Id);
+                if (user != null)
+                {
+                    var resendResult = _accountService.CanUserResend(Id);
+                    var time = resendResult.remainingTime;
+                    if (time != null)
+                        ViewBag.RemainingTime = $"{time.Value.Hours}:{time.Value.Minutes}:{time.Value.Seconds}";
 
-                ViewBag.CanResend = resendResult.canResend;
-                return View("EmailNotConfirmed",user.Email);
-                
+                    ViewBag.CanResend = resendResult.canResend;
+                    return View("EmailNotConfirmed", user.Email);
+
+                }
+                _logger.LogWarning("Email not confirmed page accessed for non-existent user with ID {UserId}.", Id);
+                return NotFound();
             }
-            return NotFound();
-        }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error accessing EmailNotConfirmed page for user {UserId}.", Id);
+                return View("Error");
+            }
+
+         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResendConfirmation(string email)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(email);
 
+                if (user == null)
+                {
+                    Log.Warning("Resend confirmation failed. User with email {Email} not found", email);
+                    TempData["Failed"] = _sharedResources[SharedResourcesKeys.EmailProblem].Value;
+                    return RedirectToAction(nameof(Login));
+                }
+
+                if (user.EmailConfirmed)
+                {
+                    Log.Information("Resend confirmation skipped. Email already confirmed for user {Email}", email);
+                    TempData["Success"] = _sharedResources[SharedResourcesKeys.EmailConfirmed].Value;
+                    return RedirectToAction(nameof(Login));
+                }
+
+                // إنشاء التوكن والرابط
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = token }, Request.Scheme);
+
+                // إرسال الإيميل
+                await _emailSender.SendEmailAsync(email, "Confirm your email", confirmationLink,1);
+
+                TempData["ConfirmEmail"] = _sharedResources[SharedResourcesKeys.ConfirmEmailMessage].Value;
+                _accountService.RecordResend(user.Id);
+                Log.Information("Confirmation email resent to {Email}", email);
+                return RedirectToAction(nameof(Login));
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error resending confirmation email for user {Email}", email);
+                return RedirectToAction(nameof(Login));
+            }
+        }
+        public IActionResult ForgotPassword()
+        {
+            return View(new ResetPasswordRequestViewModel());
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task< IActionResult >ForgotPassword(ResetPasswordRequestViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                TempData["Failed"] =_sharedResources[SharedResourcesKeys.EmailProblem].Value;
-                return RedirectToAction(nameof(Login));
+                ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.EmailNotExist]);
+                return View(model);
             }
-
-            if (user.EmailConfirmed)
+            if (!user.EmailConfirmed)
             {
-                TempData["Success"] = _sharedResources[SharedResourcesKeys.EmailConfirmed].Value;
+                ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.ConfirmEmailMessage]);
+                return View(model);
+            }
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var resetLink = Url.Action("ResetPassword", "Account", new { userId = user.Id, token = token }, Request.Scheme);
+           
+            
+            try
+            {
+                await _emailSender.SendEmailAsync(model.Email, "Reset Password", resetLink,2);
+                TempData["Success"] = _sharedResources[SharedResourcesKeys.SendRestPassword].Value;
+                Log.Information("Reset password email sent to {Email}", model.Email);
                 return RedirectToAction(nameof(Login));
             }
-
-            // إنشاء التوكن والرابط
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = token }, Request.Scheme);
-
-            // إرسال الإيميل
-            await _emailSender.SendEmailAsync(email, "Confirm your email", confirmationLink);
-
-            TempData["ConfirmEmail"] =_sharedResources[SharedResourcesKeys.ConfirmEmailMessage].Value;
-            _accountService.RecordResend(user.Id);
-             return RedirectToAction(nameof(Login));
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error sending reset password email to {Email}", model.Email);
+                ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.ErrorOccurred]);
+                return View(model);
+            }
         }
+
+
     }
+    
 }

@@ -27,8 +27,13 @@ namespace Articalproject.DependencyInjections
 
                 Opt.SignIn.RequireConfirmedPhoneNumber = false;
                 Opt.SignIn.RequireConfirmedEmail = true;
-                
-                })
+
+   
+                Opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours(1); // مدة الإغلاق
+                Opt.Lockout.MaxFailedAccessAttempts = 3; // عدد المحاولات المسموحة
+                Opt.Lockout.AllowedForNewUsers = true;  // تفعيل القفل للمستخدمين الجدد
+
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders() ;
 

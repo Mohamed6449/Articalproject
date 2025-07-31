@@ -207,4 +207,19 @@
   <data name="EmailConfirmed" xml:space="preserve">
     <value>تم تاكيد هذا الاميل بالفعل</value>
   </data>
+  <data name="ErrorOccurred" xml:space="preserve">
+    <value>حدث خطا في عملية تسجيل الدخول من السيستم </value>
+  </data>
+  <data name="AccountIsLocked" xml:space="preserve">
+    <value>الاكونت تم اغلاقة برجاء المحاولة مرة اخري لاحقا </value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>هل نسيت كلمة السر</value>
+  </data>
+  <data name="EmailNotExist" xml:space="preserve">
+    <value>الاميل غير موجود</value>
+  </data>
+  <data name="SendRestPassword" xml:space="preserve">
+    <value>تم ارسال رابط اعادة تعيين كلمة السر الي اميلك</value>
+  </data>
 </root>

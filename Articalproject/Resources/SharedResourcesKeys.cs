@@ -10,11 +10,16 @@
 		public const string NameEnIsRequired = "NameEnIsRequired";
 		public const string RequireEmail = "RequireEmail";
 		public const string UserNameOrPassIsWrong = "UserNameOrPassIsWrong";
+		public const string AccountIsLocked = "AccountIsLocked";
+		public const string ForgotPassword = "ForgotPassword";
+		public const string EmailNotExist = "EmailNotExist";
+		public const string SendRestPassword = "SendRestPassword";
 		
 		public const string Password = "Password";
 		public const string ConfirmPassword = "ConfirmPassword";
 
 		public const string Register = "Register";
+		public const string ErrorOccurred = "ErrorOccurred";
 
 		public const string Email = "Email";
 		public const string UserName = "UserName";

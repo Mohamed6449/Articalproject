@@ -30,6 +30,11 @@
                   <input asp-for="Password" type="password" class="form-control form-control-lg" />
                   <span asp-validation-for="Password" class="text-danger" ></span>
                 </div>
+                <div>
+                                    <a asp-action="ForgotPassword"  style="color: #007bff; text-decoration: underline;">
+					@_SharedResources[SharedResourcesKeys.ForgotPassword]
+                    </a>
+                </div>
 
             <div class="form-group form-check">
                 <label class="form-check-label">

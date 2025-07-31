@@ -1,5 +1,7 @@
-﻿using Serilog;
-using Articalproject.DependencyInjections;
+﻿using Articalproject.DependencyInjections;
+using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.MSSqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,10 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // ربط Serilog مع appsettings.json
 Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration)
-    .Enrich.FromLogContext()
-    .WriteTo.Console()
+    .MinimumLevel.Information()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+    .WriteTo.MSSqlServer(
+        connectionString: builder.Configuration.GetConnectionString("dbconntext"),
+        sinkOptions: new MSSqlServerSinkOptions { TableName = "Logs", AutoCreateSqlTable = true })
     .CreateLogger();
+
 builder.Host.UseSerilog();
 
 
