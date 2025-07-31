@@ -9,6 +9,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
 using Serilog;
 using System.ComponentModel.DataAnnotations;
+using secClaims = System.Security.Claims;
 
 namespace Articalproject.Controllers
 {
@@ -23,16 +24,16 @@ namespace Articalproject.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly IStringLocalizer<SharedResources> _sharedResources;
         private readonly IMapper _mapper;
-        public AccountController(UserManager<User> userManager ,
+        public AccountController(UserManager<User> userManager,
                                  SignInManager<User> signInManager,
-                                 IStringLocalizer<SharedResources> sharedResources ,
-                                 IMapper mapper, IEmailSender emailSender , IAccountService accountService,
+                                 IStringLocalizer<SharedResources> sharedResources,
+                                 IMapper mapper, IEmailSender emailSender, IAccountService accountService,
                                   IMemoryCache cache,
                                   ILogger<HomeController> logger)
         {
             _cache = cache;
             _userManager = userManager;
-            _sharedResources=sharedResources;
+            _sharedResources = sharedResources;
             _signInManager = signInManager;
             _mapper = mapper;
             _emailSender = emailSender;
@@ -41,18 +42,19 @@ namespace Articalproject.Controllers
         }
 
         [HttpGet]
-        
+
         public IActionResult Login(string? ReturnUrl)
         {
-            
-            var model = new LoginViewModel() {
+
+            var model = new LoginViewModel()
+            {
                 ReturnUrl = ReturnUrl
             };
             return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        
+
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             try
@@ -147,15 +149,15 @@ namespace Articalproject.Controllers
         {
             if (ModelState.IsValid)
             {
-               var user=await _userManager.FindByEmailAsync(register.Email);
+                var user = await _userManager.FindByEmailAsync(register.Email);
 
                 if (user == null)
                 {
-                     user=await _userManager.FindByNameAsync(register.UserName);
+                    user = await _userManager.FindByNameAsync(register.UserName);
                     if (user == null)
                     {
                         var NewUser = _mapper.Map<User>(register);
-                        var result = await _userManager.CreateAsync(NewUser,register.Password);
+                        var result = await _userManager.CreateAsync(NewUser, register.Password);
 
                         if (result.Succeeded)
                         {
@@ -165,9 +167,9 @@ namespace Articalproject.Controllers
                             {
                                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(NewUser);
                                 var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = NewUser.Id, token = token }, Request.Scheme);
-                                await _emailSender.SendEmailAsync(NewUser.Email, "Confirm your email", confirmationLink,1);
+                                await _emailSender.SendEmailAsync(NewUser.Email, "Confirm your email", confirmationLink, 1);
                                 _logger.LogInformation("Confirmation email sent to {Email}", NewUser.Email);
-                                TempData["ConfirmEmail"] =_sharedResources[SharedResourcesKeys.ConfirmEmailMessage].Value;
+                                TempData["ConfirmEmail"] = _sharedResources[SharedResourcesKeys.ConfirmEmailMessage].Value;
                             }
                             catch (Exception ex)
                             {
@@ -175,23 +177,28 @@ namespace Articalproject.Controllers
                                 ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.EmailProblem]);
                                 return View(register);
                             }
-                           // await _signInManager.SignInAsync(NewUser, isPersistent:false);
-                           return RedirectToAction(nameof(Login));
+                            var UserClaim =new secClaims.Claim("User", "True");
+                            var addClaims = await _userManager.AddClaimAsync(user,UserClaim);
+                            if (!addClaims.Succeeded)
+                            {
+                                _logger.LogWarning("Failed to add claim to user {Email}", NewUser.Email);
+                            }
+                            return RedirectToAction(nameof(Login));
                         }
-                        foreach(var error in result.Errors)
+                        foreach (var error in result.Errors)
                         {
                             _logger.LogWarning("User creation error: {Error}", error.Description);
 
-                            ModelState.AddModelError("",error.Description);
+                            ModelState.AddModelError("", error.Description);
                         }
 
                         return View(register);
                     }
                 }
-                ModelState.AddModelError("","User is already Exist");
+                ModelState.AddModelError("", "User is already Exist");
 
                 return View(register);
-                
+
 
             }
             return View(register);
@@ -231,8 +238,8 @@ namespace Articalproject.Controllers
         {
             try
             {
-            var user = await _userManager.FindByNameAsync(username);
-            return user == null ? Json(true) : Json(_sharedResources["UserNameIsExist"].Value);
+                var user = await _userManager.FindByNameAsync(username);
+                return user == null ? Json(true) : Json(_sharedResources["UserNameIsExist"].Value);
 
             }
             catch (Exception ex)
@@ -248,7 +255,7 @@ namespace Articalproject.Controllers
             try
             {
                 var user = await _userManager.FindByEmailAsync(email);
-                 return user == null ? Json(true) : Json(_sharedResources["EmailIsExist"].Value);
+                return user == null ? Json(true) : Json(_sharedResources["EmailIsExist"].Value);
 
             }
             catch (Exception ex)
@@ -265,7 +272,7 @@ namespace Articalproject.Controllers
             try
             {
                 var user = await _userManager.FindByEmailAsync(email);
-                 return user != null ? Json(true) : Json(_sharedResources["EmailNotExist"].Value);
+                return user != null ? Json(true) : Json(_sharedResources["EmailNotExist"].Value);
 
             }
             catch (Exception ex)
@@ -316,14 +323,14 @@ namespace Articalproject.Controllers
 
 
 
-        public async Task< IActionResult >EmailNotConfirmed(string Id)
+        public async Task<IActionResult> EmailNotConfirmed(string Id)
         {
             try
             {
                 var user = await _userManager.FindByIdAsync(Id);
                 if (user != null)
                 {
-                    var resendResult = _accountService.CanUserResend(Id);
+                    var resendResult = _accountService.CanUserResend(Id, "Email");
                     var time = resendResult.remainingTime;
                     if (time != null)
                         ViewBag.RemainingTime = $"{time.Value.Hours}:{time.Value.Minutes}:{time.Value.Seconds}";
@@ -341,7 +348,7 @@ namespace Articalproject.Controllers
                 return View("Error");
             }
 
-         }
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResendConfirmation(string email)
@@ -369,10 +376,10 @@ namespace Articalproject.Controllers
                 var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = token }, Request.Scheme);
 
                 // إرسال الإيميل
-                await _emailSender.SendEmailAsync(email, "Confirm your email", confirmationLink,1);
+                await _emailSender.SendEmailAsync(email, "Confirm your email", confirmationLink, 1);
 
                 TempData["ConfirmEmail"] = _sharedResources[SharedResourcesKeys.ConfirmEmailMessage].Value;
-                _accountService.RecordResend(user.Id);
+                _accountService.RecordResend(user.Id, "Email");
                 Log.Information("Confirmation email resent to {Email}", email);
                 return RedirectToAction(nameof(Login));
             }
@@ -386,9 +393,15 @@ namespace Articalproject.Controllers
         {
             return View(new ResetPasswordRequestViewModel());
         }
+
+
+
+
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task< IActionResult >ForgotPassword(ResetPasswordRequestViewModel model)
+        public async Task<IActionResult> ForgotPassword(ResetPasswordRequestViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -397,21 +410,32 @@ namespace Articalproject.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.EmailNotExist]);
+                ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.EmailNotExist].Value);
                 return View(model);
             }
             if (!user.EmailConfirmed)
             {
-                ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.ConfirmEmailMessage]);
+                _logger.LogWarning("Forgot password request for unconfirmed email {Email}", model.Email);
+                ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.EmailNotConfirmed].Value);
                 return View(model);
+            }
+
+            var resendResult = _accountService.CanUserResend(user.Id, "password");
+            if (!resendResult.canResend)
+            {
+                var time = resendResult.remainingTime;
+                if (time != null)
+                    ViewBag.RemainingTime = $"{time.Value.Hours}:{time.Value.Minutes}:{time.Value.Seconds}";
+                return View("CanRestPass");
             }
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var resetLink = Url.Action("ResetPassword", "Account", new { userId = user.Id, token = token }, Request.Scheme);
-           
-            
+
+
             try
             {
-                await _emailSender.SendEmailAsync(model.Email, "Reset Password", resetLink,2);
+                await _emailSender.SendEmailAsync(model.Email, "Reset Password", resetLink, 2);
+                _accountService.RecordResend(user.Id, "password");
                 TempData["Success"] = _sharedResources[SharedResourcesKeys.SendRestPassword].Value;
                 Log.Information("Reset password email sent to {Email}", model.Email);
                 return RedirectToAction(nameof(Login));
@@ -419,12 +443,76 @@ namespace Articalproject.Controllers
             catch (Exception ex)
             {
                 Log.Error(ex, "Error sending reset password email to {Email}", model.Email);
-                ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.ErrorOccurred]);
+                ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.ErrorOccurred].Value);
                 return View(model);
             }
         }
 
 
+
+
+
+
+
+
+
+        [HttpGet]
+        public IActionResult ResetPassword(string userId, string token)
+        {
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
+            {
+                return BadRequest("Invalid reset password link.");
+            }
+
+            var model = new ResetPasswordViewModel
+            {
+                UserId = userId,
+                Token = token
+            };
+
+            return View(model);
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return View(model);
+
+                var user = await _userManager.FindByIdAsync(model.UserId);
+                if (user == null)
+                {
+                    TempData["Failed"] = _sharedResources[SharedResourcesKeys.EmailNotExist].Value;
+                    return RedirectToAction(nameof(Login));
+                }
+
+                var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+                if (result.Succeeded)
+                {
+                    _cache.Remove($"resend_{user.Id}password");
+                    TempData["Success"] = _sharedResources[SharedResourcesKeys.PasswordResetSuccess].Value;
+                    Log.Information("Password reset successfully for user {UserId}", user.Id);
+
+                    return RedirectToAction(nameof(Login));
+                }
+                Log.Warning("Password reset failed for user {UserId}. Errors: {Errors}", user.Id, result.Errors);
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError("", error.Description);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error resetting password for user {UserId}", model.UserId);
+                return View(model);
+            }
+
+        }
+
     }
-    
+
 }

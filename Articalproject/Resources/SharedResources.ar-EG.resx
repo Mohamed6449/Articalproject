@@ -222,4 +222,16 @@
   <data name="SendRestPassword" xml:space="preserve">
     <value>تم ارسال رابط اعادة تعيين كلمة السر الي اميلك</value>
   </data>
+  <data name="PasswordResetSuccess" xml:space="preserve">
+    <value>تم اعادة تعيين كلمة السر بنجاح</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>صفحة اعادة تعيين كلمة السر</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>ارسال</value>
+  </data>
+  <data name="EmailNotConfirmed" xml:space="preserve">
+    <value>لم يتم تاكيد الاميل اكد الاميل اولا وحاول مرة اخري</value>
+  </data>
 </root>

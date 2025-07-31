@@ -1,0 +1,24 @@
+﻿@using Articalproject.Helper
+
+@if(CultureHelper.IsArabic()){
+
+    ViewData["Title"] = "اعادة تعيين كلمة السر";
+    
+
+    <div class="text-center mt-5">
+        <p class="text-danger">⏳ لا يمكنك إرسال رابط اعادة تعيين كلمة السر الآن. حاول لاحقًا.</p>
+        <p>الوقت المتبقي: <strong>@ViewBag.RemainingTime</strong></p>
+    }
+</div>
+}
+else{
+    ViewData["Title"] = "Reset password";
+
+    <div class="text-center mt-5">
+
+        <p class="text-danger">⏳ You can't resend a reset password right now. Please try again later.</p>
+        <p>Time remaining: <strong>@ViewBag.RemainingTime</strong></p>
+    
+</div>
+}
+

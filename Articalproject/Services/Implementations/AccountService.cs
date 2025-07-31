@@ -20,11 +20,11 @@ namespace Articalproject.Services.Implementations
                 _userManager = userManager;
         }
 
-            public (bool canResend, TimeSpan? remainingTime) CanUserResend(string userId)
+            public (bool canResend, TimeSpan? remainingTime) CanUserResend(string userId,string type)
             {
-                string key = $"resend_{userId}";
-                
-                if (_cache.TryGetValue(key, out (int count, DateTime lastSent) data))
+            string key = $"resend_{userId}{type}";
+
+            if (_cache.TryGetValue(key, out (int count, DateTime lastSent) data))
                 {
                     var now = DateTime.UtcNow;
                     var nextAvailable = data.count == 1 ? data.lastSent.AddMinutes(5) : data.lastSent.AddHours(24);
@@ -36,10 +36,10 @@ namespace Articalproject.Services.Implementations
                 return (true, null);
             }
 
-            public void RecordResend(string userId)
+            public void RecordResend(string userId, string type)
             {
-                string key = $"resend_{userId}";
-                if (_cache.TryGetValue(key, out (int count, DateTime lastSent) data))
+                string key = $"resend_{userId}{type}";
+              if (_cache.TryGetValue(key, out (int count, DateTime lastSent) data))
                 {
                     _cache.Set(key, (data.count + 1, DateTime.UtcNow));
                 }

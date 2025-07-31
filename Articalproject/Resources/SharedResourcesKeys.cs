@@ -14,6 +14,10 @@
 		public const string ForgotPassword = "ForgotPassword";
 		public const string EmailNotExist = "EmailNotExist";
 		public const string SendRestPassword = "SendRestPassword";
+		public const string PasswordResetSuccess = "PasswordResetSuccess";
+		public const string ResetPassword = "ResetPassword";
+		public const string Send = "Send";
+		public const string EmailNotConfirmed = "EmailNotConfirmed";
 		
 		public const string Password = "Password";
 		public const string ConfirmPassword = "ConfirmPassword";

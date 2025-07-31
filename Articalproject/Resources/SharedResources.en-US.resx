@@ -222,4 +222,16 @@
   <data name="SendRestPassword" xml:space="preserve">
     <value>A password reset link has been sent to your email.</value>
   </data>
+  <data name="PasswordResetSuccess" xml:space="preserve">
+    <value>Password Reset Success</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Reset Password page</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="EmailNotConfirmed" xml:space="preserve">
+    <value>Email Not Confirmed , Confirm Email first </value>
+  </data>
 </root>
