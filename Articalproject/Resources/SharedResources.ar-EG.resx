@@ -234,4 +234,7 @@
   <data name="EmailNotConfirmed" xml:space="preserve">
     <value>لم يتم تاكيد الاميل اكد الاميل اولا وحاول مرة اخري</value>
   </data>
+  <data name="Logout" xml:space="preserve">
+    <value>تسجيل الخروج</value>
+  </data>
 </root>

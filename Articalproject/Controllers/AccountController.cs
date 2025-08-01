@@ -9,6 +9,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
 using Serilog;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using secClaims = System.Security.Claims;
 
 namespace Articalproject.Controllers
@@ -114,6 +115,7 @@ namespace Articalproject.Controllers
                         return LocalRedirect(model.ReturnUrl);
 
                     Log.Information($"User {user.Email} logged in successfully", user.Email);
+                    _cache.Remove($"resend_{user.Id}password");
                     return RedirectToAction("Index", "Home");
 
                 }
@@ -128,11 +130,6 @@ namespace Articalproject.Controllers
             }
         }
 
-
-        public IActionResult Admin()
-        {
-            return View();
-        }
 
 
 
@@ -177,9 +174,9 @@ namespace Articalproject.Controllers
                                 ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.EmailProblem]);
                                 return View(register);
                             }
-                            var UserClaim =new secClaims.Claim("User", "True");
-                            var addClaims = await _userManager.AddClaimAsync(user,UserClaim);
-                            if (!addClaims.Succeeded)
+                          var  addRole=await _userManager.AddToRoleAsync(NewUser, "User");
+
+                            if (!addRole.Succeeded)
                             {
                                 _logger.LogWarning("Failed to add claim to user {Email}", NewUser.Email);
                             }

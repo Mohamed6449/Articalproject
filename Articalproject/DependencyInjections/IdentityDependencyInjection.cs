@@ -1,6 +1,7 @@
 ﻿using Articalproject.Data;
 using Articalproject.Models.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 
 namespace Articalproject.DependencyInjections
 {
@@ -38,10 +39,13 @@ namespace Articalproject.DependencyInjections
                 .AddDefaultTokenProviders() ;
 
             services.AddAuthorization(options =>
-            options.AddPolicy("CreateProduct",policy=>policy.
-            RequireAssertion(context=>context.User.IsInRole("Admin")&& context.User.HasClaim("Create Product","True"))
-
-            )) ;
+           {
+               options.AddPolicy("User", policy => policy.
+               RequireAssertion(context => context.User.IsInRole("Admin") && context.User.HasClaim("Create Product", "True")));
+               options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+               options.AddPolicy("User", policy => policy.RequireRole("User"));
+            }
+            ) ;
 
 
 

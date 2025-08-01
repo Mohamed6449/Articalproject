@@ -234,4 +234,7 @@
   <data name="EmailNotConfirmed" xml:space="preserve">
     <value>Email Not Confirmed , Confirm Email first </value>
   </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
 </root>

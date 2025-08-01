@@ -1,6 +1,7 @@
 ﻿@using Articalproject.Models.Identity
 @using Microsoft.AspNetCore.Identity
-
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResources> _SharedResources;
 @inject SignInManager<User> _signInManager;
 
 @if (!_signInManager.IsSignedIn(User))
@@ -15,8 +16,8 @@
 }
 else
 {
-    <ul class="navbar-nav mx-auto">
-        <li class="nav-item">
+@*     <ul class="navbar-nav mx-auto">
+        <li class="nav-item px-2">
     <form asp-action="Logout" asp-controller="Account" method="post">
         <button type="submit" class="nav-link btn btn-link py=0 ">
             Logout @User.Identity.Name
@@ -24,5 +25,15 @@ else
     </form>
 
 </li>
+</ul> *@
+<ul class="navbar-nav mx-auto">
+    <li class="nav-item px-2">
+        <form asp-action="Logout" asp-controller="Account" method="post" class="d-flex align-items-center gap-2">
+            <button type="submit" class="btn btn-outline-danger btn-sm">
+               @_SharedResources[SharedResourcesKeys.Logout]
+            </button>
+            <span  class="nav-link fw-bold text-primary me-2" style="font-family: Cairo, sans-serif;"> @User.Identity.Name</span>
+        </form>
+    </li>
 </ul>
 }

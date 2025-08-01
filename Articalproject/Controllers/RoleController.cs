@@ -42,9 +42,22 @@ namespace Articalproject.Controllers
 		{
 			return View();
 		}
+		public async Task  Creato()
+		{
+            var role = new IdentityRole()
+            {
+                Name = "User",
+            };
+            var role2 = new IdentityRole()
+            {
+                Name = "Admin",
+            };
+            await _roleManager.CreateAsync(role);
+            await _roleManager.CreateAsync(role2);
 
+        }
 
-		[HttpPost]
+        [HttpPost]
 		public async Task<IActionResult> Create(CreateRoleViewModel model)
 		{
 			if (ModelState.IsValid)

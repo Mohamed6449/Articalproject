@@ -18,6 +18,7 @@
 		public const string ResetPassword = "ResetPassword";
 		public const string Send = "Send";
 		public const string EmailNotConfirmed = "EmailNotConfirmed";
+		public const string Logout = "Logout";
 		
 		public const string Password = "Password";
 		public const string ConfirmPassword = "ConfirmPassword";
