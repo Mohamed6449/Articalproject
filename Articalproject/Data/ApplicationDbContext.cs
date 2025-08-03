@@ -1,4 +1,5 @@
-﻿using Articalproject.Models.Identity;
+﻿using Articalproject.Models;
+using Articalproject.Models.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,7 @@ namespace Articalproject.Data
 
         public DbSet<Claim> claims { get; set; }
 
+        public DbSet<Category> categorys { get; set; } 
         public DbSet<Articalproject.ViewModels.Identity.Users.GetUserByIdViewModel> GetUserByIdViewModel { get; set; } = default!;
 
 

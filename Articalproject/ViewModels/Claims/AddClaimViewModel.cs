@@ -5,8 +5,12 @@ namespace Articalproject.ViewModels.Claims
 	public class AddClaimViewModel
 	{
 		[Required]
-		public string NameAr { get; set; }
-		[Required]
+        [DataType(DataType.Text)]
+
+        public string NameAr { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
 		public string NameEn { get; set; }
 
 		public bool IsUserClaim { get; set; } = true;
