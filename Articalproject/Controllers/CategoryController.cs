@@ -79,6 +79,7 @@ namespace Articalproject.Controllers
 
 		}
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Update(UpdateCategoryViewModel model)
 		{
 			if (ModelState.IsValid)
@@ -120,6 +121,7 @@ namespace Articalproject.Controllers
 		}
 
         [HttpPost,ActionName("Delete")]
+		[ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirm(int? Id)
         {
 			if (Id == null) return NotFound();

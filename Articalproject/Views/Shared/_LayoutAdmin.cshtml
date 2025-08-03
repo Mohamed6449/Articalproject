@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>مقالتي</title>
     <meta name="description" content="موقع يسمح لك بنشر مقالات ومشاركتها مع الاخرين">
+
     <link rel="stylesheet" href="~/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic">
@@ -57,7 +58,7 @@
         </div>
     </nav>
 
-        <div class="container" style="font-family: Cairo;" dir="rtl">
+        <div class="container"  dir="rtl">
          
             @RenderBody()
         
@@ -77,6 +78,14 @@
     <script src="~/js/Sidebar-Menu.js"></script>
     <script src="~/js/Sidebar-right-opening.js"></script>
     <script src="~/js/theme.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    @if (IsSectionDefined("Scripts"))
+    {
+        @RenderSection("Scripts", required: false)
+    }
 </body>
 
 </html>
