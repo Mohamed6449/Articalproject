@@ -1,0 +1,25 @@
+﻿
+@model UpdateCategoryViewModel
+
+<div >
+	<form asp-action="Update" method="post" >
+		<div asp-validation-summary="All"></div>            
+		<input type="hidden" asp-for="Id" />
+		<Label>NameAr</Label>
+		<div>
+			<input asp-for="NameAr" class="form-control" />
+			<span asp-validation-for="NameAr" class="text-danger" ></span>
+		</div>
+		<Label>NameEn</Label>
+		<div>
+			<input asp-for="NameEn" class="form-control" />
+			<span asp-validation-for="NameEn" class="text-danger" ></span>
+		</div>
+		<div class="mt-3">
+			<input type="submit" value="save" class="btn btn-primary"/>
+		</div>
+	</form>
+</div>
+
+
+
