@@ -11,5 +11,7 @@ namespace Articalproject.Models.Identity
         public string NameEn { get; set; }
     
         public string? Address { get; set; }
+
+        public Author? Author { get; set; }
     }
 }

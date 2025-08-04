@@ -237,4 +237,16 @@
   <data name="Logout" xml:space="preserve">
     <value>Logout</value>
   </data>
+  <data name="FullName" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="Img" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="Bio" xml:space="preserve">
+    <value>Bio</value>
+  </data>
+  <data name="EmailNotSend" xml:space="preserve">
+    <value>Error sending account confirmation</value>
+  </data>
 </root>

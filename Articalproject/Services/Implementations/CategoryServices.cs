@@ -1,9 +1,7 @@
-﻿using Articalproject.Data;
-using Articalproject.Models;
+﻿using Articalproject.Models;
 
 using Articalproject.Services.InterFaces;
 using Articalproject.UnitOfWorks;
-using Articalproject.Services.InterFaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Articalproject.Services.Implementations

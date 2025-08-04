@@ -1,6 +1,8 @@
-﻿using Articalproject.Models.Identity;
+﻿using Articalproject.Models;
+using Articalproject.Models.Identity;
 using Articalproject.Resources;
 using Articalproject.Services.InterFaces;
+using Articalproject.UnitOfWorks;
 using Articalproject.ViewModels.Identity;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
@@ -25,13 +27,16 @@ namespace Articalproject.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly IStringLocalizer<SharedResources> _sharedResources;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork  _unitOfWork;
         public AccountController(UserManager<User> userManager,
                                  SignInManager<User> signInManager,
                                  IStringLocalizer<SharedResources> sharedResources,
                                  IMapper mapper, IEmailSender emailSender, IAccountService accountService,
                                   IMemoryCache cache,
-                                  ILogger<HomeController> logger)
+                                  ILogger<HomeController> logger,
+                                  IUnitOfWork unitOfWork)
         {
+            _unitOfWork = unitOfWork;
             _cache = cache;
             _userManager = userManager;
             _sharedResources = sharedResources;
@@ -153,54 +158,76 @@ namespace Articalproject.Controllers
                     user = await _userManager.FindByNameAsync(register.UserName);
                     if (user == null)
                     {
-                        var NewUser = _mapper.Map<User>(register);
-                        var result = await _userManager.CreateAsync(NewUser, register.Password);
-
-                        if (result.Succeeded)
+                        var transations = await _unitOfWork.BeginTransactionAsync();
+                        try
                         {
-                            _logger.LogInformation("User created successfully: {Email}", NewUser.Email);
 
-                            try
-                            {
-                                var token = await _userManager.GenerateEmailConfirmationTokenAsync(NewUser);
-                                var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = NewUser.Id, token = token }, Request.Scheme);
-                                await _emailSender.SendEmailAsync(NewUser.Email, "Confirm your email", confirmationLink, 1);
-                                _logger.LogInformation("Confirmation email sent to {Email}", NewUser.Email);
-                                TempData["ConfirmEmail"] = _sharedResources[SharedResourcesKeys.ConfirmEmailMessage].Value;
-                            }
-                            catch (Exception ex)
-                            {
-                                _logger.LogError(ex, "Error sending confirmation email for user {Email}", NewUser.Email);
-                                ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.EmailProblem]);
-                                return View(register);
-                            }
-                          var  addRole=await _userManager.AddToRoleAsync(NewUser, "User");
+                            var NewUser = _mapper.Map<User>(register);
+                            var result = await _userManager.CreateAsync(NewUser, register.Password);
 
-                            if (!addRole.Succeeded)
+                            if (result.Succeeded)
                             {
-                                _logger.LogWarning("Failed to add claim to user {Email}", NewUser.Email);
+                                // add Author
+
+                                var author = new Author
+                                {
+                                    UserId = NewUser.Id
+                                };
+                                await _unitOfWork.Repository<Author>().AddAsync(author);
+
+
+                                _logger.LogInformation("User created successfully: {Email}", NewUser.Email);
+
+                                try
+                                {
+                                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(NewUser);
+                                    var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = NewUser.Id, token = token }, Request.Scheme);
+                                    await _emailSender.SendEmailAsync(NewUser.Email, "Confirm your email", confirmationLink, 1);
+                                    _logger.LogInformation("Confirmation email sent to {Email}", NewUser.Email);
+                                    TempData["ConfirmEmail"] = _sharedResources[SharedResourcesKeys.ConfirmEmailMessage].Value;
+                                }
+                                catch (Exception ex)
+                                {
+                                    _logger.LogError(ex, "Error sending confirmation email for user {Email}", NewUser.Email);
+                                    ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.EmailProblem]);
+                                    TempData["Failed"] = _sharedResources[SharedResourcesKeys.EmailNotSend].Value;
+                                }
+                                var addRole = await _userManager.AddToRoleAsync(NewUser, "User");
+
+                                if (!addRole.Succeeded)
+                                {
+                                    _logger.LogWarning("Failed to add claim to user {Email}", NewUser.Email);
+                                }
+                                return RedirectToAction(nameof(Login));
                             }
-                            return RedirectToAction(nameof(Login));
+                            await transations.CommitAsync();
+                            foreach (var error in result.Errors)
+                            {
+                                _logger.LogWarning("User creation error: {Error}", error.Description);
+
+                                ModelState.AddModelError("", error.Description);
+                            }
+
+                            return View(register);
                         }
-                        foreach (var error in result.Errors)
+                        catch (Exception ex)
                         {
-                            _logger.LogWarning("User creation error: {Error}", error.Description);
-
-                            ModelState.AddModelError("", error.Description);
+                            _logger.LogError(ex, "Error occurred while creating user {Email}", register.Email);
+                            await transations.RollbackAsync();
+                            ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.ErrorOccurred].Value);
+                            return View(register);
                         }
-
-                        return View(register);
                     }
                 }
                 ModelState.AddModelError("", "User is already Exist");
 
                 return View(register);
 
-
             }
-            return View(register);
-        }
-
+                
+                return View(register);
+  }
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]

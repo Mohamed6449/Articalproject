@@ -50,7 +50,7 @@ app.UseEndpoints(endpoints =>
 {
     _ = endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Role}/{action=Creato}/{id?}");
+        pattern: "{controller=Home}/{action=Index}/{id?}");
 });
 
 

@@ -15,7 +15,17 @@ namespace Articalproject.Data
             : base(options)
         {
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Author>()
+                .HasOne(a => a.user)
+                .WithOne() 
+                .HasForeignKey<Author>(a => a.UserId)
+                .OnDelete(DeleteBehavior.Cascade); //  دي اللي بتخلي الحذف تلقائي
+        }
+        public DbSet<Author> Authors { get; set; }
         public DbSet<User> User { get; set; }
 
         public DbSet<Claim> claims { get; set; }

@@ -3,7 +3,7 @@
 	public static class SharedResourcesKeys
 	{
 
-		public const string Price = "Price";
+		public  const string Price = "Price";
 		
 		public const string NameArIsRequired = "NameArIsRequired";
 		public const string ConfirmEmailMessage = "ConfirmEmailMessage";
@@ -27,12 +27,14 @@
 		public const string ErrorOccurred = "ErrorOccurred";
 
 		public const string Email = "Email";
+		public const string Id = "Id";
 		public const string UserName = "UserName";
 		public const string NameAr = "NameAr";
 		public const string NameEn = "NameEn";
 		public const string Address = "Address";
 		public const string UserNameIsExist = "UserNameIsExist";
 		public const string EmailIsExist = "EmailIsExist";
+		public const string EmailNotSend = "EmailNotSend";
 
 		public const string UserNameisrequired= "UserNameisrequired";
 		public const string Emailisrequired= "Emailisrequired";
@@ -46,6 +48,9 @@
 		public const string RemeberMe = "RemeberMe";
 		public const string EmailProblem = "EmailProblem";
 		public const string EmailConfirmed = "EmailConfirmed";
+		public const string FullName = "FullName";
+		public const string Img = "Img";
+		public const string Bio = "Bio";
 
 
 
