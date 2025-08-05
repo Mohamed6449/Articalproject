@@ -1,5 +1,6 @@
 ﻿using Articalproject.Models;
 using Articalproject.Models.Identity;
+using Articalproject.ViewModels.Author;
 using System.Text.RegularExpressions;
 
 namespace Articalproject.Mapping
@@ -8,6 +9,7 @@ namespace Articalproject.Mapping
     {
         public AuthorProfile() {
 
+            CreateMap<GetAuthorsViewModel, UpdateAuthorViewModel>();
 
 
 

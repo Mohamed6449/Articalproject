@@ -5,7 +5,7 @@
 namespace Articalproject.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddAuthor : Migration
+    public partial class addAuthor : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,8 +21,7 @@ namespace Articalproject.Data.Migrations
                     FacebookUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TwitterUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Instagram = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,11 +32,6 @@ namespace Articalproject.Data.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Authors_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -45,13 +39,6 @@ namespace Articalproject.Data.Migrations
                 table: "Authors",
                 column: "UserId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Authors_UserId1",
-                table: "Authors",
-                column: "UserId1",
-                unique: true,
-                filter: "[UserId1] IS NOT NULL");
         }
 
         /// <inheritdoc />

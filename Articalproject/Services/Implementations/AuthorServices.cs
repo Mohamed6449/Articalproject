@@ -119,7 +119,8 @@ namespace Articalproject.Services.Implementations
                    TwitterUrl = Aut.TwitterUrl,
                    Bio = Aut.Bio,
                    UserId = Aut.UserId,
-                   FullName = CultureHelper.IsArabic() ? user.NameAr : user.NameEn,
+                   NameAr =user.NameAr ,
+                   NameEn =user.NameEn ,
                    UserName = user.UserName,
                    AuthorId = Aut.Id,
                    ProfilePictureUrl = Aut.ProfilePictureUrl
@@ -133,8 +134,9 @@ namespace Articalproject.Services.Implementations
 
             if (search != null)
             {
-                Author = Author.Where(W => W.FullName.Contains(search) ||
-                                        W.UserId.ToString().Contains(search) ||
+                Author = Author.Where(W => W.NameAr.Contains(search) ||
+                                        W.NameEn.Contains(search) ||
+                                        W.UserId.Contains(search) ||
                                         W.Bio.Contains(search) ||
                                         W.UserName.Contains(search) ||
                                         W.FacebookUrl.Contains(search) ||
@@ -142,6 +144,34 @@ namespace Articalproject.Services.Implementations
                                         W.Instagram.Contains(search));
             }
             return Author;
+        }
+        public async Task< GetAuthorsViewModel> GetAuthorByIdFullDataAsnyc(int AuthorId)
+        {
+            try
+            {
+                var Author = await _unitOfWork.Repository<Author>().GetAsQueryble().Join(_unitOfWork.Repository<User>().GetAsQueryble()
+               , Au => Au.UserId, Us => Us.Id, (Aut, user) =>
+               new GetAuthorsViewModel
+               {
+                   FacebookUrl = Aut.FacebookUrl,
+                   Instagram = Aut.Instagram,
+                   TwitterUrl = Aut.TwitterUrl,
+                   Bio = Aut.Bio,
+                   UserId = Aut.UserId,
+                   NameAr = user.NameAr,
+                   NameEn = user.NameEn,
+                   UserName = user.UserName,
+                   AuthorId = Aut.Id,
+                   ProfilePictureUrl = Aut.ProfilePictureUrl
+               }).Where(W => W.AuthorId == AuthorId).FirstOrDefaultAsync();
+                return Author;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+
         }
         #endregion
 

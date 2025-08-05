@@ -198,9 +198,9 @@ namespace Articalproject.Controllers
                                 {
                                     _logger.LogWarning("Failed to add claim to user {Email}", NewUser.Email);
                                 }
+                                await transations.CommitAsync();
                                 return RedirectToAction(nameof(Login));
                             }
-                            await transations.CommitAsync();
                             foreach (var error in result.Errors)
                             {
                                 _logger.LogWarning("User creation error: {Error}", error.Description);

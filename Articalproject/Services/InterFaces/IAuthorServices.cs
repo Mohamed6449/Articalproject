@@ -15,6 +15,7 @@ namespace Articalproject.Services.InterFaces
         public Task<Author?> GetAuthorByIdWithOutInclude(int AuthorId);
         public IQueryable<GetAuthorsViewModel> GetAuthorsAsQerayableFullData();
         public IQueryable<GetAuthorsViewModel> GetAuthorsAsQerayable(string? search);
+        public  Task<GetAuthorsViewModel> GetAuthorByIdFullDataAsnyc(int AuthorId);
     }
 }
 

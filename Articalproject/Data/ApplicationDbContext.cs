@@ -2,6 +2,7 @@
 using Articalproject.Models.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Articalproject.ViewModels.Categories;
 
 namespace Articalproject.Data
 {
@@ -20,12 +21,12 @@ namespace Articalproject.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Author>()
-                .HasOne(a => a.user)
-                .WithOne() 
-                .HasForeignKey<Author>(a => a.UserId)
+            modelBuilder.Entity<Author>().HasOne(A=>A.user)
+                .WithOne(U=>U.Author)
+                .HasForeignKey<Author>(A => A.UserId)
                 .OnDelete(DeleteBehavior.Cascade); //  دي اللي بتخلي الحذف تلقائي
         }
+
         public DbSet<Author> Authors { get; set; }
         public DbSet<User> User { get; set; }
 
@@ -33,6 +34,7 @@ namespace Articalproject.Data
 
         public DbSet<Category> categorys { get; set; } 
         public DbSet<Articalproject.ViewModels.Identity.Users.GetUserByIdViewModel> GetUserByIdViewModel { get; set; } = default!;
+        public DbSet<Articalproject.ViewModels.Categories.GetCategoryByIdViewModel> GetCategoryByIdViewModel { get; set; } = default!;
 
 
     }

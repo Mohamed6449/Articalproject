@@ -4,26 +4,26 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Articalproject.ViewModels.Author
 {
-    public class GetAuthorsViewModel : LocalizableEntity
+    public class ff: LocalizableEntity
     {
 
-        [Display(Name ="معرف الناشر")]
+        [Required]
+        [Display(Name = "Id", ResourceType = typeof(SharedResources))]
         public int AuthorId { get; set; }
-        [Display(Name ="معرف المستخدم")]
         public string UserId { get; set; }
 
-        [Display(Name ="اسم المستخدم")]
+        [Required]
+        [Display(Name = "UserName", ResourceType = typeof(SharedResources))]
         public string UserName { get; set; }
-        [Display(Name ="الاسم بالعربي")]
-        public string NameAr { get; set; }
+        [Required]
+        [Display(Name = "Name", ResourceType = typeof(SharedResources))]
+        public string FullName { get; set; }
 
-        [Display(Name ="الاسم بالانجلش")]
-        public string NameEn { get; set; }
-
-        [Display(Name ="السيرة الذاتية")]
+        [MinLength(200, ErrorMessage = "اقصي عدد احرف مسموح به 200")]
+        [Display(Name = "Bio", ResourceType = typeof(SharedResources))]
         public string Bio { get; set; }
 
-        [Display(Name ="الصورة")]
+        [Display(Name = "Img", ResourceType = typeof(SharedResources))]
         public string ProfilePictureUrl { get; set; }
 
         [Display(Name = "FaceBook")]

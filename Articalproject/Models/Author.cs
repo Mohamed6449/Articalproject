@@ -7,7 +7,7 @@ namespace Articalproject.Models
 {
     public class Author
     {
-        [Required]
+        [Key]
         public int Id { get; set; }
         public string? Bio { get; set; }
         public string? ProfilePictureUrl { get; set; }
@@ -15,7 +15,6 @@ namespace Articalproject.Models
         public string? TwitterUrl { get; set; }
         public string? Instagram { get; set; }
 
-        [ForeignKey("user")]
         [Required]
         public string UserId { get; set; }
         public User user { get; set; }

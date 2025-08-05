@@ -49,17 +49,10 @@ namespace Articalproject.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("UserId")
                         .IsUnique();
-
-                    b.HasIndex("UserId1")
-                        .IsUnique()
-                        .HasFilter("[UserId1] IS NOT NULL");
 
                     b.ToTable("Authors");
                 });
@@ -365,14 +358,10 @@ namespace Articalproject.Data.Migrations
             modelBuilder.Entity("Articalproject.Models.Author", b =>
                 {
                     b.HasOne("Articalproject.Models.Identity.User", "user")
-                        .WithOne()
+                        .WithOne("Author")
                         .HasForeignKey("Articalproject.Models.Author", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Articalproject.Models.Identity.User", null)
-                        .WithOne("Author")
-                        .HasForeignKey("Articalproject.Models.Author", "UserId1");
 
                     b.Navigation("user");
                 });

@@ -35,7 +35,7 @@ namespace Articalproject.Services.Implementations
                         Directory.CreateDirectory(path);
 
                  }
-                    
+
                 using (FileStream fileStream = File.Create(path + fileName))
                 {
                     await file.CopyToAsync(fileStream);
