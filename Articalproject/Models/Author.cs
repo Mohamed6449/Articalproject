@@ -9,8 +9,8 @@ namespace Articalproject.Models
     {
         [Required]
         public int Id { get; set; }
-        public string Bio { get; set; }
-        public string ProfilePictureUrl { get; set; }
+        public string? Bio { get; set; }
+        public string? ProfilePictureUrl { get; set; }
         public string? FacebookUrl { get; set; }
         public string? TwitterUrl { get; set; }
         public string? Instagram { get; set; }
@@ -19,6 +19,5 @@ namespace Articalproject.Models
         [Required]
         public string UserId { get; set; }
         public User user { get; set; }
-
     }
 }

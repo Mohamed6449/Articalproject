@@ -1,4 +1,5 @@
 ﻿using Articalproject.Models;
+using Articalproject.ViewModels.Author;
 
 namespace Articalproject.Services.InterFaces
 {
@@ -12,7 +13,8 @@ namespace Articalproject.Services.InterFaces
         public Task<string> UpdateAuthorAsync(Author Author);
         public Task<string> DeleteAuthorAsync(Author AuthorId);
         public Task<Author?> GetAuthorByIdWithOutInclude(int AuthorId);
-        public IQueryable<Author> GetAuthorsAsQerayable(string? search);
+        public IQueryable<GetAuthorsViewModel> GetAuthorsAsQerayableFullData();
+        public IQueryable<GetAuthorsViewModel> GetAuthorsAsQerayable(string? search);
     }
 }
 

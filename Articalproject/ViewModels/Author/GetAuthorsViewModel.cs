@@ -1,14 +1,16 @@
-﻿using Articalproject.Resources;
+﻿using Articalproject.Helper;
+using Articalproject.Resources;
 using System.ComponentModel.DataAnnotations;
 
 namespace Articalproject.ViewModels.Author
 {
-    public class GetAuthorsViewModel
+    public class GetAuthorsViewModel: LocalizableEntity
     {
 
         [Required]
         [Display(Name = "Id", ResourceType = typeof(SharedResources))]
-        public int Id { get; set; }
+        public int AuthorId { get; set; }
+        public string UserId { get; set; }
 
         [Required]
         [Display(Name = "UserName", ResourceType = typeof(SharedResources))]

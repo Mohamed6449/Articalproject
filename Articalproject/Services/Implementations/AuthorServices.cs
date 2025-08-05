@@ -1,7 +1,9 @@
-﻿using Articalproject.Models;
-
+﻿using Articalproject.Helper;
+using Articalproject.Models;
+using Articalproject.Models.Identity;
 using Articalproject.Services.InterFaces;
 using Articalproject.UnitOfWorks;
+using Articalproject.ViewModels.Author;
 using Microsoft.EntityFrameworkCore;
 
 namespace Articalproject.Services.Implementations
@@ -105,28 +107,42 @@ namespace Articalproject.Services.Implementations
 
         }
 
-        public IQueryable<Author> GetAuthorsAsQerayable(string? search)
+
+        public IQueryable<GetAuthorsViewModel> GetAuthorsAsQerayableFullData ()
         {
-            throw new NotImplementedException();
+            var Author = _unitOfWork.Repository<Author>().GetAsQueryble().Join(_unitOfWork.Repository<User>().GetAsQueryble()
+               , Au => Au.UserId, Us => Us.Id, (Aut, user) =>
+               new GetAuthorsViewModel
+               {
+                   FacebookUrl = Aut.FacebookUrl,
+                   Instagram = Aut.Instagram,
+                   TwitterUrl = Aut.TwitterUrl,
+                   Bio = Aut.Bio,
+                   UserId = Aut.UserId,
+                   FullName = CultureHelper.IsArabic() ? user.NameAr : user.NameEn,
+                   UserName = user.UserName,
+                   AuthorId = Aut.Id,
+                   ProfilePictureUrl = Aut.ProfilePictureUrl
+               });
+          return  Author;
+
         }
+        public IQueryable<GetAuthorsViewModel> GetAuthorsAsQerayable(string? search)
+        {
+           var Author = GetAuthorsAsQerayableFullData();
 
-        //public IQueryable<Author> GetAuthorsAsQerayable(string? search)
-        //{
-        //    var Author = _unitOfWork.Repository<Author>().GetAsQueryble();
-
-        //    if (search != null)
-        //    {
-        //        Author = Author.Where(W => W.FullName.Contains(search)||
-        //                                W.Id.ToString().Contains(search)||
-        //                                W.UserName.ToString().Contains(search)||
-        //                                W.FacebookUrl.ToString().Contains(search)||
-        //                                W.TwitterUrl.ToString().Contains(search)||
-        //                                W.Instagram.ToString().Contains(search) );
-        //    }
-        //    return Author;
-
-
-        //}
+            if (search != null)
+            {
+                Author = Author.Where(W => W.FullName.Contains(search) ||
+                                        W.UserId.ToString().Contains(search) ||
+                                        W.Bio.Contains(search) ||
+                                        W.UserName.Contains(search) ||
+                                        W.FacebookUrl.Contains(search) ||
+                                        W.TwitterUrl.Contains(search) ||
+                                        W.Instagram.Contains(search));
+            }
+            return Author;
+        }
         #endregion
 
 
