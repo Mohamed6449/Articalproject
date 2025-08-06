@@ -28,7 +28,6 @@ namespace Articalproject.ViewModels.Author
         public string Bio { get; set; }
 
         [Display(Name = "تحميل الصورة")]
-        [NotMapped]
         public IFormFile? File { get; set; }
 
         [Display(Name = "FaceBook")]
