@@ -4,7 +4,7 @@ namespace Articalproject.Services.InterFaces
 {
 	public interface ICategoryServices
 	{
-		public Task< List<Category> >GetCategories();
+		public Task< List<Category> >GetCategoriesAsListAsync();
 
 
 		//public Task<Category?> GetCategoryById(int CategoryId);
@@ -16,7 +16,9 @@ namespace Articalproject.Services.InterFaces
 		public Task<bool> IsCategoryNameArExist(string Name);
 		public Task<bool> IsCategoryNameEnExist(string Name);
 
-		public IQueryable<Category> GetCategorysAsQerayable(string? search);
-	}
+		public IQueryable<Category> GetCategorysAsQerayableSearch(string? search);
+		public IQueryable<Category> GetCategoriesAsQueryble();
+
+    }
 }
 

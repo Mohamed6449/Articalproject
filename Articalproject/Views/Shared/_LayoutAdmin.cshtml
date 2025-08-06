@@ -7,6 +7,7 @@
     <title>مقالتي</title>
     <meta name="description" content="موقع يسمح لك بنشر مقالات ومشاركتها مع الاخرين">
 
+
     <link rel="stylesheet" href="~/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic">
@@ -64,7 +65,40 @@
         
         </div>
 
-    <script src="~/bootstrap/js/bootstrap.min.js"></script>
+<!-- ✅ 1. jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- ✅ 2. NiceScroll -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> 
+
+     <!-- باقي السكربتات بتاعتك بعد كده -->
+    <script src="~/js/bs-init-1.js"></script>
+    <script src="~/js/Off-Canvas-Sidebar-Drawer-Navbar.js"></script>
+    <script src="~/js/freelancer.js"></script>
+    <script src="~/js/Off-Canvas-Sidebar-Drawer-Navbar-1.js"></script>
+    <script src="~/js/Studious-sidebar.js"></script>
+    <script src="~/js/bs-init.js"></script>
+    <script src="~/js/chart.min.js"></script>
+    <script src="~/js/Navbar---Apple.js"></script>
+    <script src="~/js/Right-Sidebar.js"></script>
+    <script src="~/js/Sidebar-Menu.js"></script>
+    <script src="~/js/Sidebar-right-opening.js"></script>
+    <script src="~/js/theme.js"></script>
+
+    <!-- ✅ لو بتحتاج validate -->
+    <script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+ 
+
+
+
+
+
+
+
+
+    @* <script src="~/bootstrap/js/bootstrap.min.js"></script>
     <script src="~/js/bs-init-1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="~/js/Off-Canvas-Sidebar-Drawer-Navbar.js"></script>
@@ -81,7 +115,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/lib/jquery/jquery.min.js"></script>
     <script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script> *@
     @if (IsSectionDefined("Scripts"))
     {
         @RenderSection("Scripts", required: false)

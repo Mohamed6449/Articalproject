@@ -14,7 +14,7 @@ namespace Articalproject.Services.InterFaces
         public Task<string> DeleteAuthorAsync(Author AuthorId);
         public Task<Author?> GetAuthorByIdWithOutInclude(int AuthorId);
         public IQueryable<GetAuthorsViewModel> GetAuthorsAsQerayableFullData();
-        public IQueryable<GetAuthorsViewModel> GetAuthorsAsQerayable(string? search);
+        public IQueryable<GetAuthorsViewModel> GetAuthorsAsQerayableToSearch(string? search);
         public  Task<GetAuthorsViewModel> GetAuthorByIdFullDataAsnyc(int AuthorId);
     }
 }

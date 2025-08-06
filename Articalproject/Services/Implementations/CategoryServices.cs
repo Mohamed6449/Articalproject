@@ -27,9 +27,13 @@ namespace Articalproject.Services.Implementations
 
 		#region Hundle Function
 
-		public async Task<List<Category>> GetCategories()
+		public async Task<List<Category>> GetCategoriesAsListAsync()
 		{
 			return await _unitOfWork.Repository<Category>().GetAsListAsync();
+		}
+		public IQueryable <Category> GetCategoriesAsQueryble()
+		{
+			return  _unitOfWork.Repository<Category>().GetAsQueryble();
 		}
 
 		//public async Task<Category?> GetCategoryById(int CategoryId)
@@ -106,7 +110,7 @@ namespace Articalproject.Services.Implementations
 
 		}
 
-		public IQueryable<Category> GetCategorysAsQerayable(string? search)
+		public IQueryable<Category> GetCategorysAsQerayableSearch(string? search)
 		{
 			var Category = _unitOfWork.Repository<Category>().GetAsQueryble();
 

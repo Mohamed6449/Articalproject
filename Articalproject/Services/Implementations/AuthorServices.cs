@@ -128,7 +128,7 @@ namespace Articalproject.Services.Implementations
           return  Author;
 
         }
-        public IQueryable<GetAuthorsViewModel> GetAuthorsAsQerayable(string? search)
+        public IQueryable<GetAuthorsViewModel> GetAuthorsAsQerayableToSearch(string? search)
         {
            var Author = GetAuthorsAsQerayableFullData();
 

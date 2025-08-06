@@ -4,6 +4,12 @@
 }
 
 <h1 style="font-family:cairo"> الاصناف</h1>
+<form method="get" asp-action="Search" >
+    <input type="search" name="SearchItem" class="search-field" placeholder="search ..." />
+    <input type="submit" value="بحث" class="btn-primary" />
+
+</form>
+<br />
 <p>
     <a class="btn-primary"  asp-action="Create">اضافة صنف</a>
 </p>
@@ -36,3 +42,17 @@
 }
     </tbody>
 </table>
+
+@{
+    
+     <a asp-action="Index" asp-route-Id=0  >الصفحة الاولي</a>
+    if(Model.Count()>2)
+    {
+        <a asp-action="Index" asp-route-Id=@Model.Last().Id asp-route-next=@true >التالي</a>
+	}
+    if (ViewBag.Previous==true)
+    {
+        <a asp-action="Index" asp-route-Id=@Model.First().Id asp-route-next=@false>السابق</a>
+    }
+
+}

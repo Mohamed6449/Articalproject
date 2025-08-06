@@ -1,34 +1,77 @@
-﻿using AutoMapper;
-using Articalproject.Models;
+﻿using Articalproject.Models;
+using Articalproject.Services.Implementations;
 using Articalproject.Services.InterFaces;
 using Articalproject.ViewModels.Categories;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.View;
 
 namespace Articalproject.Controllers
 {
-  
-    public class CategoryController : Controller
+
+	public class CategoryController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
-        private readonly ICategoryServices _categoryServices;
+		private readonly ICategoryServices _categoryServices;
 		private readonly IMapper _mapper;
-		public CategoryController(ICategoryServices categoryServices , IMapper mapper,
-                                    ILogger<HomeController> logger) { 
-		
+		private readonly int _PageItem;
+        public CategoryController(ICategoryServices categoryServices, IMapper mapper,
+									ILogger<HomeController> logger) {
+
 			_categoryServices = categoryServices;
 			_mapper = mapper;
 			_logger = logger;
+			_PageItem = 2; // Set the number of items per page
         }
 
 		[HttpGet]
-		public async Task< IActionResult> Index()
+		public async Task<IActionResult> Index(int? Id, bool next = true)
 		{
-			var Categories = await _categoryServices.GetCategories();
-			var result = _mapper.Map<List<GetCategoriesListViewModel>>(Categories);
-			return View(result);
+			if (Id == null || Id == 0)
+			{
+				var Categories = await _categoryServices.GetCategoriesAsQueryble().Take(_PageItem).ToListAsync();
+				var result = _mapper.Map<List<GetCategoriesListViewModel>>(Categories);
+				return View(result);
+
+			}
+			if (next)
+			{
+				var CategoriesId = await _categoryServices.GetCategoriesAsQueryble().Where(W => W.Id > Id).Take(_PageItem).ToListAsync();
+				var result = _mapper.Map<List<GetCategoriesListViewModel>>(CategoriesId);
+				ViewBag.Previous =true;
+                return View(result);
+			}
+			else
+			{
+				var CategoriesId = await _categoryServices.GetCategoriesAsQueryble().Where(W => W.Id < Id).Take(_PageItem).ToListAsync();
+				var result = _mapper.Map<List<GetCategoriesListViewModel>>(CategoriesId);
+				return View(result);
+
+
+			}
 		}
-		[HttpGet]
+
+        public async Task<IActionResult> Search(string SearchItem)
+        {
+            if (string.IsNullOrEmpty(SearchItem))
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            var Categories = await _categoryServices.GetCategorysAsQerayableSearch(SearchItem).ToListAsync();
+			var result = _mapper.Map<List<GetCategoriesListViewModel>>(Categories);
+            return View("Index", result);
+        }
+
+
+
+
+
+
+
+
+        [HttpGet]
 		public IActionResult Create()
 		{
 			return View();

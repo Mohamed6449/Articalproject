@@ -10,6 +10,8 @@ namespace Articalproject.Mapping
         public AuthorProfile() {
 
             CreateMap<GetAuthorsViewModel, UpdateAuthorViewModel>();
+            CreateMap<UpdateAuthorViewModel, User>();
+            CreateMap<UpdateAuthorViewModel, Author>();
 
 
 

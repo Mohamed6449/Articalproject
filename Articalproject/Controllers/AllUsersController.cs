@@ -17,9 +17,11 @@ namespace Articalproject.Controllers
         private readonly IMapper _mapper;
         public readonly UserManager<User> _userManager;
         public readonly IUnitOfWork _unitOfWork;
+        private readonly int _PageItem;
 
         public AllUsersController(IUnitOfWork unitOfWork,IFileServiece fileServiece,ILogger<AllUsersController> logger,IAuthorServices authorServices ,IMapper mapper,UserManager<User> userManager )
         {
+            _PageItem = 5;
             _unitOfWork = unitOfWork;
             _logger = logger;
             _authorServices = authorServices;
@@ -29,12 +31,34 @@ namespace Articalproject.Controllers
         }
 
         [HttpGet]
-        public async Task< IActionResult >Index()
+        public async Task<IActionResult> Index(int? Id)
         {
 
-            var Authors =await _authorServices.GetAuthorsAsQerayableFullData().ToListAsync();
-            return View(Authors);
+            if (Id == null||Id==0)
+            {
+                var Authors =await _authorServices.GetAuthorsAsQerayableFullData().Take(_PageItem).ToListAsync();
+                return View(Authors);
+            }
+            var AuthorsId = await _authorServices.GetAuthorsAsQerayableFullData().Where(W=>W.AuthorId>Id).Take(_PageItem).ToListAsync();
+            return View(AuthorsId);
+
         }
+        public async Task<IActionResult> Search(string SearchItem)
+        {
+            //if (string.IsNullOrEmpty(SearchItem))
+            //{
+            //    return RedirectToAction(nameof(Index));
+            //}
+            var authors = await _authorServices.GetAuthorsAsQerayableToSearch(SearchItem).ToListAsync();
+            return PartialView("_PartialAuthorData", authors);
+        }
+
+
+
+
+
+
+
         [HttpGet]
         public async Task<IActionResult> Update(int? Id)
         {
@@ -71,9 +95,7 @@ namespace Articalproject.Controllers
                         _logger.LogError($"Author with ID {model.AuthorId} not found.update author");
                         return NotFound();
                     }
-                    user.UserName = model.UserName;
-                    user.NameAr = model.NameAr;
-                    user.NameEn = model.NameEn;
+                    _mapper.Map(model, user);
 
                     var resultUpdateUser = await _userManager.UpdateAsync(user);
                     if (!resultUpdateUser.Succeeded)
@@ -85,12 +107,8 @@ namespace Articalproject.Controllers
                         }
                         return View(model);
                     }
+                    _mapper.Map(model, author);
 
-                    author.UserId = model.UserId;
-                    author.Bio = model.Bio;
-                    author.FacebookUrl = model.FacebookUrl;
-                    author.TwitterUrl = model.TwitterUrl;
-                    author.Instagram = model.Instagram;
                     author.ProfilePictureUrl = await _fileServiece.Upload(model.File, "/img/");
 
                     var resultUpdateAuthor = await _authorServices.UpdateAuthorAsync(author);
