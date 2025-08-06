@@ -23,31 +23,45 @@ namespace Articalproject.Controllers
 			_categoryServices = categoryServices;
 			_mapper = mapper;
 			_logger = logger;
-			_PageItem = 2; // Set the number of items per page
+			_PageItem = 10; // Set the number of items per page
         }
 
 		[HttpGet]
 		public async Task<IActionResult> Index(int? Id, bool next = true)
 		{
+				ViewBag.Next = true;
 			if (Id == null || Id == 0)
 			{
-				var Categories = await _categoryServices.GetCategoriesAsQueryble().Take(_PageItem).ToListAsync();
-				var result = _mapper.Map<List<GetCategoriesListViewModel>>(Categories);
+
+				var Categories =  _categoryServices.GetCategoriesAsQueryble();
+                if (Categories.Count() <= _PageItem)
+                    ViewBag.Next = false;
+				var newCategories = await Categories.Take(_PageItem).ToListAsync();
+                var result = _mapper.Map<List<GetCategoriesListViewModel>>(newCategories);
 				return View(result);
 
 			}
+
 			if (next)
 			{
 				var CategoriesId = await _categoryServices.GetCategoriesAsQueryble().Where(W => W.Id > Id).Take(_PageItem).ToListAsync();
 				var result = _mapper.Map<List<GetCategoriesListViewModel>>(CategoriesId);
 				ViewBag.Previous =true;
-                return View(result);
-			}
+				var newId = CategoriesId.LastOrDefault().Id;
+                if ( _categoryServices.GetCategoriesAsQueryble().Where(W => W.Id > newId).Count()>1)
+					return View(result);
+				ViewBag.Next = false;
+				return View(result);
+            }
 			else
 			{
-				var CategoriesId = await _categoryServices.GetCategoriesAsQueryble().Where(W => W.Id < Id).Take(_PageItem).ToListAsync();
+				var CategoriesId = await _categoryServices.GetCategoriesAsQueryble().Where(W => W.Id < Id).OrderDescending().Take(_PageItem).OrderBy(O=>O.Id).ToListAsync();
 				var result = _mapper.Map<List<GetCategoriesListViewModel>>(CategoriesId);
-				return View(result);
+                var newId = CategoriesId.FirstOrDefault().Id;
+                if (_categoryServices.GetCategoriesAsQueryble().Where(W => W.Id < newId).Count() > 1)
+					ViewBag.Previous =true;
+
+                    return View(result);
 
 
 			}

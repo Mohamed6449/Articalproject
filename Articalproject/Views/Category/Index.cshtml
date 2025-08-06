@@ -2,6 +2,37 @@
 @{
     ViewData["Title"] = "قائمة الاصناف";
 }
+    <style>
+        .nav-btn {
+            padding: 6px 14px;
+            background-color: #f8d7a9;
+            color: #4a2f00;
+            text-decoration: none;
+            border: 1px solid #e0b97b;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: 'Cairo', sans-serif;
+            display: inline-block;
+            transition: all 0.25s ease-in-out;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+            .nav-btn:hover {
+                background-color: #f3c680;
+                color: #3a2500;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+            }
+
+        .btn-container {
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 
 <h1 style="font-family:cairo"> الاصناف</h1>
 <form method="get" asp-action="Search" >
@@ -44,15 +75,19 @@
 </table>
 
 @{
-    
-     <a asp-action="Index" asp-route-Id=0  >الصفحة الاولي</a>
-    if(Model.Count()>2)
-    {
-        <a asp-action="Index" asp-route-Id=@Model.Last().Id asp-route-next=@true >التالي</a>
-	}
-    if (ViewBag.Previous==true)
-    {
-        <a asp-action="Index" asp-route-Id=@Model.First().Id asp-route-next=@false>السابق</a>
-    }
+
+    <div class="btn-container">
+        <a class="nav-btn" asp-action="Index" asp-route-Id="0">الصفحة الأولى</a>
+
+        @if (Model.Count() >= 10 && ViewBag.Next == true)
+        {
+            <a class="nav-btn" asp-action="Index" asp-route-Id="@Model.Last().Id" asp-route-next="true">التالي</a>
+        }
+
+        @if (ViewBag.Previous == true)
+        {
+            <a class="nav-btn" asp-action="Index" asp-route-Id="@Model.First().Id" asp-route-next="false">السابق</a>
+        }
+    </div>
 
 }

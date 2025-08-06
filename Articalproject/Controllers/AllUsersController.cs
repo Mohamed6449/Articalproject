@@ -1,4 +1,5 @@
 ﻿using Articalproject.Models.Identity;
+using Articalproject.Services.Implementations;
 using Articalproject.Services.InterFaces;
 using Articalproject.UnitOfWorks;
 using Articalproject.ViewModels.Author;
@@ -21,7 +22,7 @@ namespace Articalproject.Controllers
 
         public AllUsersController(IUnitOfWork unitOfWork,IFileServiece fileServiece,ILogger<AllUsersController> logger,IAuthorServices authorServices ,IMapper mapper,UserManager<User> userManager )
         {
-            _PageItem = 5;
+            _PageItem = 10;
             _unitOfWork = unitOfWork;
             _logger = logger;
             _authorServices = authorServices;
@@ -31,18 +32,55 @@ namespace Articalproject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(int? Id)
+        public async Task<IActionResult> Index(int? Id, bool next = true)
         {
-
-            if (Id == null||Id==0)
+            ViewBag.Next = true;
+            if (Id == null || Id == 0)
             {
-                var Authors =await _authorServices.GetAuthorsAsQerayableFullData().Take(_PageItem).ToListAsync();
-                return View(Authors);
-            }
-            var AuthorsId = await _authorServices.GetAuthorsAsQerayableFullData().Where(W=>W.AuthorId>Id).Take(_PageItem).ToListAsync();
-            return View(AuthorsId);
+                var Authors =  _authorServices.GetAuthorsAsQerayableFullData();
+                if (Authors.Count()<=_PageItem)
+                        ViewBag.Next = false;
+                var kAuthors = await Authors.OrderBy(O=>O.AuthorId).Take(_PageItem).ToListAsync();
+                return View(kAuthors);
 
+            }
+
+            if (next)
+            {
+                var AuthorsId = await _authorServices.GetAuthorsAsQerayableFullData().Where(W => W.AuthorId > Id).OrderBy(O => O.AuthorId).Take(_PageItem).ToListAsync();
+                ViewBag.Previous = true;
+                var newId = AuthorsId.LastOrDefault().AuthorId;
+                if (_authorServices.GetAuthorsAsQerayableFullData().Where(W => W.AuthorId > newId).Count() > 1)
+                    return View(AuthorsId);
+                ViewBag.Next = false;
+                return View(AuthorsId);
+            }
+            else
+            {
+                var AuthorsId = await _authorServices.GetAuthorsAsQerayableFullData().Where(W => W.AuthorId < Id).OrderByDescending(O=>O.AuthorId).Take(_PageItem).OrderBy(O => O.AuthorId).ToListAsync();
+                var newId = AuthorsId.FirstOrDefault().AuthorId;
+                if (_authorServices.GetAuthorsAsQerayableFullData().Where(W => W.AuthorId < newId).Count() > 1)
+                    ViewBag.Previous = true;
+
+                return View(AuthorsId);
+
+
+            }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public async Task<IActionResult> Search(string SearchItem)
         {
             //if (string.IsNullOrEmpty(SearchItem))
