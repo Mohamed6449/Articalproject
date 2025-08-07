@@ -24,6 +24,16 @@ namespace Articalproject.Data
             modelBuilder.Entity<Author>().HasOne(A=>A.user)
                 .WithOne(U=>U.Author)
                 .HasForeignKey<Author>(A => A.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            modelBuilder.Entity<AuthorPost>().HasOne(A=>A.user)
+                .WithMany(U=>U.authorPosts)
+                .HasForeignKey(A => A.UserId)
+                .OnDelete(DeleteBehavior.Cascade); 
+            
+            modelBuilder.Entity<AuthorPost>().HasOne(A=>A.Category)
+                .WithMany(U=>U.AuthorPosts)
+                .HasForeignKey(A => A.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade); //  دي اللي بتخلي الحذف تلقائي
         }
 
@@ -31,6 +41,7 @@ namespace Articalproject.Data
         public DbSet<User> User { get; set; }
 
         public DbSet<Claim> claims { get; set; }
+        public DbSet<AuthorPost> AuthorPosts { get; set; }
 
         public DbSet<Category> categorys { get; set; } 
         public DbSet<Articalproject.ViewModels.Identity.Users.GetUserByIdViewModel> GetUserByIdViewModel { get; set; } = default!;

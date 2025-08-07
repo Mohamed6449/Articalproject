@@ -249,4 +249,10 @@
   <data name="EmailNotSend" xml:space="preserve">
     <value>خطا في ارسال الاميل</value>
   </data>
+  <data name="PostTitleIsRequired" xml:space="preserve">
+    <value>عنوان المقالة مطلوب </value>
+  </data>
+  <data name="PostDescriptionIsRequired" xml:space="preserve">
+    <value>وصف المقالة مطلوب</value>
+  </data>
 </root>

@@ -18,10 +18,11 @@ namespace Articalproject.DependencyInjections
             Services.AddTransient<IEmailSender, EmailSender>();
             Services.AddTransient<ICategoryServices, CategoryServices>();
             Services.AddTransient<IAuthorServices, AuthorServices>();
+            Services.AddTransient<IAuthorPostServices, AuthorPostServices>();
 
-            
-            
-            
+
+
+
             return Services;
 
         }

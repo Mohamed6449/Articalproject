@@ -15,5 +15,8 @@ namespace Articalproject.Models
         [DataType(DataType.Text)]
         public string NameEn { get; set; }
 
+        public ICollection<AuthorPost> AuthorPosts { get; set; }
+
+
     }
 }

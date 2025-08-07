@@ -18,5 +18,7 @@ namespace Articalproject.Models
         [Required]
         public string UserId { get; set; }
         public User user { get; set; }
+
+
     }
 }

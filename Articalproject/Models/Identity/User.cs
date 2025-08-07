@@ -13,5 +13,7 @@ namespace Articalproject.Models.Identity
         public string? Address { get; set; }
 
         public Author? Author { get; set; }
+
+        public ICollection<AuthorPost> authorPosts { get; set; } 
     }
 }

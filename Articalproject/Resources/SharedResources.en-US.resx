@@ -249,4 +249,10 @@
   <data name="EmailNotSend" xml:space="preserve">
     <value>Error sending account confirmation</value>
   </data>
+  <data name="PostTitleIsRequired" xml:space="preserve">
+    <value>Post Title Is Required</value>
+  </data>
+  <data name="PostDescriptionIsRequired" xml:space="preserve">
+    <value>Post Description Is Required</value>
+  </data>
 </root>

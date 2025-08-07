@@ -7,6 +7,7 @@
 		
 		public const string NameArIsRequired = "NameArIsRequired";
 		public const string ConfirmEmailMessage = "ConfirmEmailMessage";
+		public const string PostDescriptionIsRequired = "PostDescriptionIsRequired";
 		public const string NameEnIsRequired = "NameEnIsRequired";
 		public const string RequireEmail = "RequireEmail";
 		public const string UserNameOrPassIsWrong = "UserNameOrPassIsWrong";
@@ -15,6 +16,7 @@
 		public const string EmailNotExist = "EmailNotExist";
 		public const string SendRestPassword = "SendRestPassword";
 		public const string PasswordResetSuccess = "PasswordResetSuccess";
+		public const string PostTitleIsRequired = "PostTitleIsRequired";
 		public const string ResetPassword = "ResetPassword";
 		public const string Send = "Send";
 		public const string EmailNotConfirmed = "EmailNotConfirmed";
