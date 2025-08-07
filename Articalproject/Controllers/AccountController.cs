@@ -84,7 +84,7 @@ namespace Articalproject.Controllers
                 if (user == null)
                 {
                     Log.Warning("Login failed. User with email {Email} not found", model.Email);
-                    ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.EmailProblem]);
+                    ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.EmailNotExist]);
                     return View(model);
                 }
 

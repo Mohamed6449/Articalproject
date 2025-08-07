@@ -26,8 +26,8 @@ namespace Articalproject.Controllers
             public readonly UserManager<User> _userManager;
             public readonly IUnitOfWork _unitOfWork;
             private readonly int _PageItem;
-            private readonly Task<AuthorizationResult> _ResultAuthorize ;
-            private readonly string UserId;
+        private readonly IAuthorizationService _authorizationService;
+           
 
         public PostController(IUnitOfWork unitOfWork,
             IFileServiece fileServiece, ILogger<AllUsersController> logger,
@@ -35,24 +35,24 @@ namespace Articalproject.Controllers
             UserManager<User> userManager, IAuthorizationService authorizationService, ICategoryServices categoryServices
             )
             {
-                _categoryServices = categoryServices;
+                    _authorizationService = authorizationService;
+            _categoryServices = categoryServices;
                  _PageItem = 10;
                 _unitOfWork = unitOfWork;
                 _logger = logger;
                 _authorPostServices = authorPostServices;
                 _userManager = userManager;
                 _fileServiece = fileServiece;
-                _ResultAuthorize= authorizationService.AuthorizeAsync(User, "Admin");
-                UserId = userManager.GetUserId(User);
+                
             _mapper = mapper;
 
         }
-
         public async Task< IActionResult> Index(int? Id, bool next = true)
         {
+             var UserId = _userManager.GetUserId(User);
             ViewBag.Next = true;
             List<GetPostsViewModel> posts = new List<GetPostsViewModel>();
-            if (_ResultAuthorize.Result.Succeeded)
+            if (_authorizationService.AuthorizeAsync(User, "AdminPolicy").Result.Succeeded)
             {
                  posts = await _authorPostServices.GetAuthorPostsAsQueryble().Include(i => i.user).Include(i => i.Category)
                             .Select(s => new GetPostsViewModel
@@ -122,7 +122,12 @@ namespace Articalproject.Controllers
         {
             ViewBag.Category = new SelectList(await _categoryServices.GetCategoriesAsListAsync(),"Id",
                 CultureHelper.IsArabic()? "NameAr": "NameEn");
-            return View();
+            var userId = _userManager.GetUserId(User);
+            var model = new CreatePostViewModel
+            {
+                UserId = userId,
+            };
+            return View(model);
         }
 
 
@@ -155,23 +160,10 @@ namespace Articalproject.Controllers
                     ModelState.AddModelError("", $"An error occurred while creating the post: {ex.Message}");
                 }
             }
+            ViewBag.Category = new SelectList(await _categoryServices.GetCategoriesAsListAsync(),"Id",
+                CultureHelper.IsArabic()? "NameAr": "NameEn");
             return View(model);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         public IActionResult Details(int Id)
         {
             var post = _authorPostServices.GetAuthorPostsAsQueryble().Include(i => i.user).Include(i => i.Category)

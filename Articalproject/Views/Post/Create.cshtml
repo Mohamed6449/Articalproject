@@ -20,25 +20,25 @@
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="PostImage" class="control-label"></label>
+                <label class="control-label"> @_SharedResources[SharedResourcesKeys.Img]</label>
                 <input asp-for="PostImage" type="file" class="form-control" />
                 <span asp-validation-for="PostImage" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PostTitle" class="control-label"></label>
+                <label class="control-label"> @_SharedResources[SharedResourcesKeys.PostTitle]</label>
                 <input asp-for="PostTitle" class="form-control" />
                 <span asp-validation-for="PostTitle" class="text-danger"></span>
             </div>
 
             <div class="form-group"> 
-                <label>Category</label>
+                <label>@_SharedResources[SharedResourcesKeys.Category]</label>
 			    <select  asp-for="CategoryId" class="form-control" asp-items="ViewBag.Category" >
                 </select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PostDescription" class="control-label"></label>
-                <input asp-for="PostDescription" class="form-control" />
+                <label class="control-label"> @_SharedResources[SharedResourcesKeys.PostDescription]</label>
+                <textarea asp-for="PostDescription" class="form-control"></textarea>
                 <span asp-validation-for="PostDescription" class="text-danger"></span>
             </div>
 

@@ -40,9 +40,9 @@ namespace Articalproject.DependencyInjections
 
             services.AddAuthorization(options =>
            {
-               options.AddPolicy("User", policy => policy.
+               options.AddPolicy("UserWithClaim", policy => policy.
                RequireAssertion(context => context.User.IsInRole("Admin") && context.User.HasClaim("Create Product", "True")));
-               options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+               options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
                options.AddPolicy("User", policy => policy.RequireRole("User"));
             }
             ) ;

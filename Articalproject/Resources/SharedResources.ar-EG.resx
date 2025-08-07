@@ -172,7 +172,7 @@
     <value>تاكيد كلمة السر مطلوب</value>
   </data>
   <data name="Passwordisrequired" xml:space="preserve">
-    <value>تاكيد الباسورد مطلوب </value>
+    <value> الباسورد مطلوب </value>
   </data>
   <data name="UserNameisrequired" xml:space="preserve">
     <value>اسم المستخدم مطلوب </value>
@@ -287,5 +287,8 @@
   </data>
   <data name="InformationPost" xml:space="preserve">
     <value>معلومات المشاركة</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>اصناف</value>
   </data>
 </root>

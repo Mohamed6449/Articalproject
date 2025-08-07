@@ -288,4 +288,7 @@
   <data name="InformationPost" xml:space="preserve">
     <value>Information Post</value>
   </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
 </root>

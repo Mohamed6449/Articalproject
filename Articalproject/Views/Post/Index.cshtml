@@ -1,8 +1,9 @@
 ﻿@model IEnumerable<Articalproject.ViewModels.Post.GetPostsViewModel>
-
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResources> _SharedResources;
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 <style>
     .nav-btn {
@@ -44,35 +45,33 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.UserName)
+                @_SharedResources[SharedResourcesKeys.UserName]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NameAr)
+                @_SharedResources[SharedResourcesKeys.NameAr]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NameEn)
+                @_SharedResources[SharedResourcesKeys.NameEn]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CategoryNameAr)
+                @_SharedResources[SharedResourcesKeys.CategoryNameAr]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CategoryNameEn)
+                @_SharedResources[SharedResourcesKeys.CategoryNameEn]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PostDescription)
+                @_SharedResources[SharedResourcesKeys.PostDescription]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PostImage)
+                @_SharedResources[SharedResourcesKeys.Img]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PostDate)
+                @_SharedResources[SharedResourcesKeys.PostDate]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PostTitle)
+                @_SharedResources[SharedResourcesKeys.PostTitle]
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PostImage)
-            </th>
+
             <th></th>
         </tr>
     </thead>
@@ -80,35 +79,33 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                    @Html.DisplayNameFor(modelItem => item.UserName)
+                    @Html.DisplayFor(modelItem => item.UserName)
             </td>
                 <td>
-                    @Html.DisplayNameFor(modelItem => item.NameAr)
+                    @Html.DisplayFor(modelItem => item.NameAr)
             </td>
                 <td>
-                    @Html.DisplayNameFor(modelItem => item.NameEn)
+                    @Html.DisplayFor(modelItem => item.NameEn)
             </td>
                 <td>
-                    @Html.DisplayNameFor(modelItem => item.CategoryNameAr)
+                    @Html.DisplayFor(modelItem => item.CategoryNameAr)
                 </td>
                 <td>
-                    @Html.DisplayNameFor(modelItem => item.CategoryNameEn)
+                    @Html.DisplayFor(modelItem => item.CategoryNameEn)
                 </td>
                 <td>
-                    @Html.DisplayNameFor(modelItem => item.PostDescription)
+                    @Html.DisplayFor(modelItem => item.PostDescription)
             </td>
              <td>
                     <img src=@item.PostImage alt="Profile Picture" style="width: 50px; height: 50px;" />
             </td>
                 <td>
-                    @Html.DisplayNameFor(modelItem => item.PostDate)
+                    @Html.DisplayFor(modelItem => item.PostDate)
             </td>
                 <td>
-                    @Html.DisplayNameFor(modelItem => item.PostTitle)
+                    @Html.DisplayFor(modelItem => item.PostTitle)
             </td>
-                <td>
-                    @Html.DisplayNameFor(modelItem => item.PostImage)
-            </td>
+
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">تعديل</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">تفاصيل</a> |
