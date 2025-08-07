@@ -53,6 +53,17 @@
 		public const string FullName = "FullName";
 		public const string Img = "Img";
 		public const string Bio = "Bio";
+		public const string PostTitle = "PostTitle";
+		public const string PostDescription = "PostDescription";
+		public const string PostDate = "PostDate";
+		public const string CategoryNameAr = "CategoryNameAr";
+		public const string CategoryNameEn = "CategoryNameEn";
+		public const string Details = "Details";
+		public const string PostDetails = "PostDetails";
+		public const string Edit = "Edit";
+		public const string BacktoList = "BacktoList";
+		public const string Create = "Create";
+		public const string InformationPost = "InformationPost";
 
 
 

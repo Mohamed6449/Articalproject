@@ -1,0 +1,139 @@
+﻿@model IEnumerable<Articalproject.ViewModels.Post.GetPostsViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<style>
+    .nav-btn {
+        padding: 6px 14px;
+        background-color: #f8d7a9;
+        color: #4a2f00;
+        text-decoration: none;
+        border: 1px solid #e0b97b;
+        border-radius: 6px;
+        font-size: 14px;
+        font-family: 'Cairo', sans-serif;
+        display: inline-block;
+        transition: all 0.25s ease-in-out;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+        .nav-btn:hover {
+            background-color: #f3c680;
+            color: #3a2500;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+        }
+
+    .btn-container {
+        margin-top: 20px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<h1 style ="font-family:cairo">بيانات المشاركات</h1>
+
+<p style="font-family:cairo">
+    <a asp-action="Create">مشاركة جديدة</a>
+</p>
+<table class="table table-striped hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NameAr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NameEn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryNameAr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryNameEn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PostDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PostImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PostDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PostTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PostImage)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                    @Html.DisplayNameFor(modelItem => item.UserName)
+            </td>
+                <td>
+                    @Html.DisplayNameFor(modelItem => item.NameAr)
+            </td>
+                <td>
+                    @Html.DisplayNameFor(modelItem => item.NameEn)
+            </td>
+                <td>
+                    @Html.DisplayNameFor(modelItem => item.CategoryNameAr)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(modelItem => item.CategoryNameEn)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(modelItem => item.PostDescription)
+            </td>
+             <td>
+                    <img src=@item.PostImage alt="Profile Picture" style="width: 50px; height: 50px;" />
+            </td>
+                <td>
+                    @Html.DisplayNameFor(modelItem => item.PostDate)
+            </td>
+                <td>
+                    @Html.DisplayNameFor(modelItem => item.PostTitle)
+            </td>
+                <td>
+                    @Html.DisplayNameFor(modelItem => item.PostImage)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">تعديل</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">تفاصيل</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">حذف</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+@{
+
+    <div class="btn-container">
+        <a class="nav-btn" asp-action="Index" asp-route-Id="0">الصفحة الأولى</a>
+
+        @if (Model.Count() >= 10 && ViewBag.Next == true)
+        {
+            <a class="nav-btn" asp-action="Index" asp-route-Id="@Model.Last().Id" asp-route-next="true">التالي</a>
+        }
+
+        @if (ViewBag.Previous == true)
+        {
+            <a class="nav-btn" asp-action="Index" asp-route-Id="@Model.First().Id" asp-route-next="false">السابق</a>
+        }
+    </div>
+
+}

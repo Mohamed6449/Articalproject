@@ -3,6 +3,7 @@ using Articalproject.Models.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Articalproject.ViewModels.Categories;
+using Articalproject.ViewModels.Post;
 
 namespace Articalproject.Data
 {
@@ -46,6 +47,8 @@ namespace Articalproject.Data
         public DbSet<Category> categorys { get; set; } 
         public DbSet<Articalproject.ViewModels.Identity.Users.GetUserByIdViewModel> GetUserByIdViewModel { get; set; } = default!;
         public DbSet<Articalproject.ViewModels.Categories.GetCategoryByIdViewModel> GetCategoryByIdViewModel { get; set; } = default!;
+        public DbSet<Articalproject.ViewModels.Post.GetPostsViewModel> GetPostsViewModel { get; set; } = default!;
+        public DbSet<Articalproject.ViewModels.Post.CreatePostViewModel> CreatePostViewModel { get; set; } = default!;
 
 
     }

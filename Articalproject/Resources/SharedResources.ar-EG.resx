@@ -255,4 +255,37 @@
   <data name="PostDescriptionIsRequired" xml:space="preserve">
     <value>وصف المقالة مطلوب</value>
   </data>
+  <data name="PostTitle" xml:space="preserve">
+    <value>عنوان المقالة</value>
+  </data>
+  <data name="PostDescription" xml:space="preserve">
+    <value>وصف المقالة</value>
+  </data>
+  <data name="PostDate" xml:space="preserve">
+    <value>تاريخ المقالة</value>
+  </data>
+  <data name="CategoryNameEn" xml:space="preserve">
+    <value>اسم الصنف الانجليزي</value>
+  </data>
+  <data name="CategoryNameAr" xml:space="preserve">
+    <value>اسم الصنف العربي</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>تفاصيل</value>
+  </data>
+  <data name="PostDetails" xml:space="preserve">
+    <value>تفاصيل المشاركة </value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>تعديل</value>
+  </data>
+  <data name="BacktoList" xml:space="preserve">
+    <value>الرجوع الي القائمة </value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>انشاء </value>
+  </data>
+  <data name="InformationPost" xml:space="preserve">
+    <value>معلومات المشاركة</value>
+  </data>
 </root>
