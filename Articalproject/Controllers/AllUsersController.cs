@@ -22,7 +22,7 @@ namespace Articalproject.Controllers
 
         public AllUsersController(IUnitOfWork unitOfWork,IFileServiece fileServiece,ILogger<AllUsersController> logger,IAuthorServices authorServices ,IMapper mapper,UserManager<User> userManager )
         {
-            _PageItem = 10;
+            _PageItem = 1;
             _unitOfWork = unitOfWork;
             _logger = logger;
             _authorServices = authorServices;
