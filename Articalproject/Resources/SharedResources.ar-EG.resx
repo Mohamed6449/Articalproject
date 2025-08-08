@@ -291,4 +291,25 @@
   <data name="Category" xml:space="preserve">
     <value>اصناف</value>
   </data>
+  <data name="PublicationData" xml:space="preserve">
+    <value>بيانات المشاركة</value>
+  </data>
+  <data name="NewPost" xml:space="preserve">
+    <value>مشاركة جديدة</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="FirstPage" xml:space="preserve">
+    <value>الصفحة الاولي</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>التالي</value>
+  </data>
+  <data name="Perevious" xml:space="preserve">
+    <value>السابق</value>
+  </data>
+  <data name="SureDelete" xml:space="preserve">
+    <value>هل انت متاكد من حذف هذا العنصر</value>
+  </data>
 </root>

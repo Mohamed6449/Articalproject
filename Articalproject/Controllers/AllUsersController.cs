@@ -133,6 +133,7 @@ namespace Articalproject.Controllers
                         _logger.LogError($"Author with ID {model.AuthorId} not found.update author");
                         return NotFound();
                     }
+
                     _mapper.Map(model, user);
 
                     var resultUpdateUser = await _userManager.UpdateAsync(user);
@@ -147,7 +148,20 @@ namespace Articalproject.Controllers
                     }
                     _mapper.Map(model, author);
 
-                    author.ProfilePictureUrl = await _fileServiece.Upload(model.File, "/img/");
+
+
+                    if (model.File != null && model.File.Length > 0)
+                    {
+                        if (!string.IsNullOrEmpty(author.ProfilePictureUrl))
+                        {
+                            var deleteResult = _fileServiece.DeleteSource(author.ProfilePictureUrl);
+                            if (!deleteResult)
+                            {
+                                _logger.LogWarning($"Failed to delete old profile picture for author with ID {author.Id}.");
+                            }
+                        }
+                        author.ProfilePictureUrl = await _fileServiece.Upload(model.File, "/img/");
+                    }
 
                     var resultUpdateAuthor = await _authorServices.UpdateAuthorAsync(author);
 

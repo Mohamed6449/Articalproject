@@ -1,0 +1,38 @@
+﻿@using System.Globalization
+@{
+    var currentCulture = CultureInfo.CurrentUICulture.Name;
+    var isArabic = currentCulture.StartsWith("ar");
+}
+
+<!DOCTYPE html>
+<html lang="@currentCulture">
+<head>
+    <meta charset="utf-8">
+    <title>Access Denied</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 100px;
+            background-color: #f8f8f8;
+        }
+
+        .message {
+            font-size: 24px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="message">
+        @if (isArabic)
+        {
+            <p>غير مسموح لك بالنشر. تم حذفك من قائمة الناشرين.</p>
+        }
+        else
+        {
+            <p>You are not allowed to publish. You have been removed from the list of publishers.</p>
+        }
+    </div>
+</body>
+</html>

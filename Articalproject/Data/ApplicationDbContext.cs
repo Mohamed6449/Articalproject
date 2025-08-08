@@ -27,9 +27,9 @@ namespace Articalproject.Data
                 .HasForeignKey<Author>(A => A.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
             
-            modelBuilder.Entity<AuthorPost>().HasOne(A=>A.user)
+            modelBuilder.Entity<AuthorPost>().HasOne(A=>A.Author)
                 .WithMany(U=>U.authorPosts)
-                .HasForeignKey(A => A.UserId)
+                .HasForeignKey(A => A.AuthorId)
                 .OnDelete(DeleteBehavior.Cascade); 
             
             modelBuilder.Entity<AuthorPost>().HasOne(A=>A.Category)
@@ -45,9 +45,7 @@ namespace Articalproject.Data
         public DbSet<AuthorPost> AuthorPosts { get; set; }
 
         public DbSet<Category> categorys { get; set; } 
-        public DbSet<Articalproject.ViewModels.Identity.Users.GetUserByIdViewModel> GetUserByIdViewModel { get; set; } = default!;
-        public DbSet<Articalproject.ViewModels.Categories.GetCategoryByIdViewModel> GetCategoryByIdViewModel { get; set; } = default!;
-        public DbSet<Articalproject.ViewModels.Post.GetPostsViewModel> GetPostsViewModel { get; set; } = default!;
+
 
 
     }

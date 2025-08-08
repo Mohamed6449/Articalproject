@@ -291,4 +291,25 @@
   <data name="Category" xml:space="preserve">
     <value>Category</value>
   </data>
+  <data name="PublicationData" xml:space="preserve">
+    <value>Publication Data</value>
+  </data>
+  <data name="NewPost" xml:space="preserve">
+    <value>New Post</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="FirstPage" xml:space="preserve">
+    <value>First Page</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Perevious" xml:space="preserve">
+    <value>Perevious</value>
+  </data>
+  <data name="SureDelete" xml:space="preserve">
+    <value>Are you Sure you want delete this item</value>
+  </data>
 </root>

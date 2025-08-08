@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Articalproject.ViewModels.Post.GetPostsViewModel>
 @using Microsoft.Extensions.Localization
 @inject IStringLocalizer<SharedResources> _SharedResources;
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 @{
     ViewData["Title"] = "Index";
      Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -36,101 +37,57 @@
         align-items: center;
     }
 </style>
-<h1 style ="font-family:cairo">بيانات المشاركات</h1>
+<h1 style="font-family:cairo">@_SharedResources[SharedResourcesKeys.PublicationData]</h1>
+
+<div>
+    <input id="SearchItem" type="text" placeholder="search ..." />
+</div>
+<br />
+
 
 <p style="font-family:cairo">
-    <a asp-action="Create">مشاركة جديدة</a>
+    <a asp-action="Create">@_SharedResources[SharedResourcesKeys.NewPost]</a>
 </p>
-<table class="table table-striped hover">
-    <thead>
-        <tr>
-            <th>
-                @_SharedResources[SharedResourcesKeys.UserName]
-            </th>
-            <th>
-                @_SharedResources[SharedResourcesKeys.NameAr]
-            </th>
-            <th>
-                @_SharedResources[SharedResourcesKeys.NameEn]
-            </th>
-            <th>
-                @_SharedResources[SharedResourcesKeys.CategoryNameAr]
-            </th>
-            <th>
-                @_SharedResources[SharedResourcesKeys.CategoryNameEn]
-            </th>
-            <th>
-                @_SharedResources[SharedResourcesKeys.PostDescription]
-            </th>
-            <th>
-                @_SharedResources[SharedResourcesKeys.Img]
-            </th>
-            <th>
-                @_SharedResources[SharedResourcesKeys.PostDate]
-            </th>
-            <th>
-                @_SharedResources[SharedResourcesKeys.PostTitle]
-            </th>
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NameAr)
-            </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NameEn)
-            </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CategoryNameAr)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CategoryNameEn)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PostDescription)
-            </td>
-             <td>
-                    <img src=@item.PostImage alt="Profile Picture" style="width: 50px; height: 50px;" />
-            </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PostDate)
-            </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PostTitle)
-            </td>
+<div id="PostData">
 
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">تعديل</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">تفاصيل</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">حذف</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    @await Html.PartialAsync("_PartialPostData", Model)
+
+</div>
+
 
 
 @{
 
     <div class="btn-container">
-        <a class="nav-btn" asp-action="Index" asp-route-Id="0">الصفحة الأولى</a>
+        <a class="nav-btn" asp-action="Index" asp-route-Id="0">@_SharedResources[SharedResourcesKeys.FirstPage]</a>
 
         @if (Model.Count() >= 10 && ViewBag.Next == true)
         {
-            <a class="nav-btn" asp-action="Index" asp-route-Id="@Model.Last().Id" asp-route-next="true">التالي</a>
+            <a class="nav-btn" asp-action="Index" asp-route-Id="@Model.Last().Id" asp-route-next="true">@_SharedResources[SharedResourcesKeys.Next]</a>
         }
 
         @if (ViewBag.Previous == true)
         {
-            <a class="nav-btn" asp-action="Index" asp-route-Id="@Model.First().Id" asp-route-next="false">السابق</a>
+            <a class="nav-btn" asp-action="Index" asp-route-Id="@Model.First().Id" asp-route-next="false">@_SharedResources[SharedResourcesKeys.Perevious]</a>
         }
     </div>
 
 }
+
+
+<script>
+    $(document).ready(function () {
+        $("#SearchItem").on('input', function () {
+            var searchString = $(this).val();
+            $.ajax({
+                url: '@Url.Action("Search", "Post")',
+                type: 'GET',
+                data: { SearchItem: searchString },
+                success: function (result) {
+                    $("#PostData").html(result);
+                }
+            });
+        });
+    });
+</script>

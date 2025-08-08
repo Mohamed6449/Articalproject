@@ -18,6 +18,8 @@ namespace Articalproject.Models
         [Required]
         public string UserId { get; set; }
         public User user { get; set; }
+        public ICollection<AuthorPost> authorPosts { get; set; }
+
 
 
     }

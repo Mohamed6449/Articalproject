@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Articalproject.ViewModels.Post.GetPostsViewModel>
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResources> _SharedResources;
+
+<table class="table table-striped hover">
+    <thead>
+        <tr>
+            <th>
+                @_SharedResources[SharedResourcesKeys.UserName]
+            </th>
+            <th>
+                @_SharedResources[SharedResourcesKeys.FullName]
+            </th>
+            <th>
+                @_SharedResources[SharedResourcesKeys.Category]
+            </th>
+            <th>
+                @_SharedResources[SharedResourcesKeys.PostDescription]
+            </th>
+            <th>
+                @_SharedResources[SharedResourcesKeys.Img]
+            </th>
+            <th>
+                @_SharedResources[SharedResourcesKeys.PostDate]
+            </th>
+            <th>
+                @_SharedResources[SharedResourcesKeys.PostTitle]
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostDescription)
+                </td>
+                <td>
+                    <img src=@item.PostImage alt="Profile Picture" style="width: 50px; height: 50px;" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostTitle)
+                </td>
+
+                <td>
+                    <a asp-action="Update" asp-route-id="@item.Id">@_SharedResources[SharedResourcesKeys.Edit]</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">@_SharedResources[SharedResourcesKeys.Details]</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">@_SharedResources[SharedResourcesKeys.Delete]</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

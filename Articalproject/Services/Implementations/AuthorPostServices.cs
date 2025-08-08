@@ -48,7 +48,7 @@ namespace Articalproject.Services.Implementations
         {
             return await GetAuthorPostsAsQueryble()
                 .Where(W => W.Id == AuthorPostId).
-                Include(I => I.user).Include(I => I.Category).FirstOrDefaultAsync();
+                Include(I => I.Author).ThenInclude(T=>T.user).Include(I => I.Category).FirstOrDefaultAsync();
         }
 
 
@@ -109,18 +109,18 @@ namespace Articalproject.Services.Implementations
         public IQueryable <AuthorPost> GetAuthorPostsAsQerayableSearch(string? search)
         {
             var AuthorPost = _unitOfWork.Repository<AuthorPost>().GetAsQueryble()
-                .Include(I => I.user).ThenInclude(T=>T.Author).Include(I => I.Category);
+                .Include(I => I.Author).ThenInclude(T=>T.user).Include(I => I.Category);
 
             if (search != null)
             {
 
-                var NewAuthorPost = AuthorPost.Where(W => W.user.NameAr.Contains(search) ||
-                                        W.user.NameEn.Contains(search) ||
-                                        W.UserId.Contains(search) ||
+                var NewAuthorPost = AuthorPost.Where(W => W.Author.user.NameAr.Contains(search) ||
+                                        W.Author.user.NameEn.Contains(search) ||
+                                        W.AuthorId.ToString().Contains(search) ||
                                         W.PostTitle.Contains(search) ||
-                                        W.user.UserName.Contains(search) ||
+                                        W.Author.user.UserName.Contains(search) ||
                                         W.PostDescription.Contains(search) ||
-                                        W.user.Author.Id.ToString().Contains(search) ||
+                                        W.Author.Id.ToString().Contains(search) ||
                                         W.Category.NameAr.Contains(search) ||
                                         W.Category.NameEn.Contains(search) ||
                                         W.PostDate.ToString().Contains(search) ||

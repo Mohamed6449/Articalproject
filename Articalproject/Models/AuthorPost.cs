@@ -18,9 +18,9 @@ namespace Articalproject.Models
 
         public DateTime PostDate { get; set; } 
         public int CategoryId { get; set; }
-        public string UserId { get; set; }
+        public int AuthorId { get; set; }
 
         public  Category Category { get; set; }
-        public User user { get; set; }
+        public Author Author { get; set; }
     }
 }

@@ -15,7 +15,7 @@
 
         <form asp-action="Create" enctype="multipart/form-data">
 
-            <input asp-for="UserId" type="hidden" class="form-control" />
+            <input asp-for="AuthorId" type="hidden" class="form-control" />
 			@Html.AntiForgeryToken()
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>

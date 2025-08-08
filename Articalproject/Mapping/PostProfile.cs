@@ -9,6 +9,8 @@ namespace Articalproject.Mapping
         public PostProfile() {
 
             CreateMap<CreatePostViewModel, AuthorPost>();
+            CreateMap<AuthorPost,UpdatePostViewModel >();
+            CreateMap<UpdatePostViewModel, AuthorPost>();
 
 
         }

@@ -65,6 +65,9 @@ namespace Articalproject.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -83,15 +86,11 @@ namespace Articalproject.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("AuthorId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("AuthorPosts");
                 });
@@ -142,52 +141,6 @@ namespace Articalproject.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("claims");
-                });
-
-            modelBuilder.Entity("Articalproject.ViewModels.Categories.GetCategoryByIdViewModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("NameAr")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NameEn")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GetCategoryByIdViewModel");
-                });
-
-            modelBuilder.Entity("Articalproject.ViewModels.Identity.Users.GetUserByIdViewModel", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NameAr")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NameEn")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GetUserByIdViewModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -428,21 +381,21 @@ namespace Articalproject.Data.Migrations
 
             modelBuilder.Entity("Articalproject.Models.AuthorPost", b =>
                 {
+                    b.HasOne("Articalproject.Models.Author", "Author")
+                        .WithMany("authorPosts")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Articalproject.Models.Category", "Category")
                         .WithMany("AuthorPosts")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Articalproject.Models.Identity.User", "user")
-                        .WithMany("authorPosts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Author");
 
                     b.Navigation("Category");
-
-                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -496,6 +449,11 @@ namespace Articalproject.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Articalproject.Models.Author", b =>
+                {
+                    b.Navigation("authorPosts");
+                });
+
             modelBuilder.Entity("Articalproject.Models.Category", b =>
                 {
                     b.Navigation("AuthorPosts");
@@ -504,8 +462,6 @@ namespace Articalproject.Data.Migrations
             modelBuilder.Entity("Articalproject.Models.Identity.User", b =>
                 {
                     b.Navigation("Author");
-
-                    b.Navigation("authorPosts");
                 });
 #pragma warning restore 612, 618
         }

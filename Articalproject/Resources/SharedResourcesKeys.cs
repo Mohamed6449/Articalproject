@@ -4,8 +4,15 @@
 	{
 
 		public  const string Price = "Price";
+		public  const string NewPost = "NewPost";
+		public  const string Delete = "Delete";
+		public  const string Perevious = "Perevious";
+		public  const string Next = "Next";
+		public  const string FirstPage = "FirstPage";
+		public  const string SureDelete = "SureDelete";
 		
 		public const string NameArIsRequired = "NameArIsRequired";
+		public const string PublicationData = "PublicationData";
 		public const string ConfirmEmailMessage = "ConfirmEmailMessage";
 		public const string PostDescriptionIsRequired = "PostDescriptionIsRequired";
 		public const string NameEnIsRequired = "NameEnIsRequired";

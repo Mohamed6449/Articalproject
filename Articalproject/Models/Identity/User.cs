@@ -14,6 +14,5 @@ namespace Articalproject.Models.Identity
 
         public Author? Author { get; set; }
 
-        public ICollection<AuthorPost> authorPosts { get; set; } 
     }
 }

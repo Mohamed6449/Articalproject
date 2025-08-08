@@ -16,7 +16,7 @@ namespace Articalproject.ViewModels.Post
         public DateTime PostDate { get; set; } = DateTime.Now;
 
         [Required]
-        public string UserId { get; set; }
+        public int AuthorId { get; set; }
         [Required]
         public int CategoryId { get; set; }
 
