@@ -61,7 +61,7 @@
     <link rel="stylesheet" href="~/css/Vertical-Left-SideBar-by-Jigar-Mistry.css">
 </head>
 
-<body dir=@(CultureHelper.IsRightToLeft() ? "rtl" : "ltr") id="page-top" data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="72">
+<body dir=@(!CultureHelper.IsRightToLeft() ? "rtl" : "ltr") id="page-top" data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="72">
     <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-secondary text-uppercase" id="mainNav"  style="font-family: Cairo, sans-serif;">
         <div class="container">
             <a class="navbar-brand" href="index.html">مقالاتي</a><button data-bs-toggle="collapse" data-bs-target="#navbarResponsive" class="navbar-toggler text-white bg-primary navbar-toggler-right text-uppercase rounded" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
@@ -73,7 +73,7 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#about" style="font-family: Cairo, sans-serif;">من نحن؟</a></li>
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#contact" style="font-family: Cairo, sans-serif;">تواصل معنا</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" asp-controller="AllUsers" asp-action="Index" style="font-family: Cairo, sans-serif;">الناشرون</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded"  style="font-family: Cairo, sans-serif;">الناشرون</a></li>
                     <li class="nav-item mx-0 mx-lg-1"></li>
 
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="index.html" style="font-family: Cairo, sans-serif;">الرئيسة</a></li>

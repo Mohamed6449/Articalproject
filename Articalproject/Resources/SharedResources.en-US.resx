@@ -312,4 +312,34 @@
   <data name="SureDelete" xml:space="preserve">
     <value>Are you Sure you want delete this item</value>
   </data>
+  <data name="InformationAuthor" xml:space="preserve">
+    <value> Author Information</value>
+  </data>
+  <data name="BacktoBage" xml:space="preserve">
+    <value>Back to Bage</value>
+  </data>
+  <data name="MyAccount" xml:space="preserve">
+    <value>My Account</value>
+  </data>
+  <data name="Articles" xml:space="preserve">
+    <value>Articles</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="PostAll" xml:space="preserve">
+    <value>Your total contributions</value>
+  </data>
+  <data name="PostMonth" xml:space="preserve">
+    <value>Your monthly contributions</value>
+  </data>
+  <data name="PostYears" xml:space="preserve">
+    <value>Your annual contributions</value>
+  </data>
+  <data name="WelcomeMessage" xml:space="preserve">
+    <value>We are pleased to have you join us, you can manage your content on the website through the control panel.</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Welcome</value>
+  </data>
 </root>

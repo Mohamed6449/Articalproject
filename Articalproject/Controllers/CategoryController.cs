@@ -11,7 +11,8 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.View;
 namespace Articalproject.Controllers
 {
 
-	public class CategoryController : Controller
+    [Authorize(policy: "AdminPolicy")]
+    public class CategoryController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
 		private readonly ICategoryServices _categoryServices;

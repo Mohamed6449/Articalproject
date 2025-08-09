@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace Articalproject.Controllers
 {
@@ -59,27 +60,16 @@ namespace Articalproject.Controllers
                 return View("~/Views/Shared/NotAllowCreatePost.cshtml");
             }
             ViewBag.Next = true;
-            List<GetPostsViewModel> posts = new List<GetPostsViewModel>();
+            
+            var postsQ = _authorPostServices.GetAuthorPostsAsQuerybleWithInclude();
 
-            if (isAdmin)
+            if (!isAdmin)
             {
-                posts = await _authorPostServices.GetAuthorPostsAsQueryble().Include(i => i.Author).ThenInclude(T => T.user).Include(i => i.Category)
-                           .Select(s => new GetPostsViewModel
-                           {
-                               Id = s.Id,
-                               UserName = s.Author.user.UserName,
-                               FullName = CultureHelper.IsArabic() ? s.Author.user.NameAr : s.Author.user.NameEn,
-                               PostImage = s.PostImage,
-                               PostTitle = s.PostTitle,
-                               PostDescription = s.PostDescription,
-                               PostDate = s.PostDate,
-                               CategoryName = CultureHelper.IsArabic() ? s.Category.NameAr : s.Category.NameEn
-                           }).ToListAsync();
+                    postsQ = postsQ.Where(W => W.Author.user.Id == UserId);
 
             }
-            else
-            {
-                posts = await _authorPostServices.GetAuthorPostsAsQueryble().Include(i => i.Author).ThenInclude(T => T.user).Where(W => W.Author.user.Id == UserId).Include(i => i.Category)
+
+            var posts =await postsQ
              .Select(s => new GetPostsViewModel
              {
                  Id = s.Id,
@@ -91,7 +81,7 @@ namespace Articalproject.Controllers
                  PostDate = s.PostDate,
                  CategoryName = CultureHelper.IsArabic() ? s.Category.NameAr : s.Category.NameEn
              }).ToListAsync();
-            }
+            
             if (Id == null || Id == 0)
             {
 
@@ -349,21 +339,27 @@ namespace Articalproject.Controllers
         {
             try
             {
+                var UserId = _userManager.GetUserId(User);
+                var Posts =  _authorPostServices.GetAuthorPostsAsQerayableSearch(SearchItem);
+                var isAdmin = _authorizationService.AuthorizeAsync(User, "AdminPolicy").Result.Succeeded;
+                if (!isAdmin)
+                {
+                    Posts = Posts.Where(W => W.Author.user.Id == UserId);
+                }
+                var PostsList= await Posts
+                 .Select(s => new GetPostsViewModel
+                  {
+                      Id = s.Id,
+                      UserName = s.Author.user.UserName,
+                      FullName = CultureHelper.IsArabic() ? s.Author.user.NameAr : s.Author.user.NameEn,
+                      PostImage = s.PostImage,
+                      PostTitle = s.PostTitle,
+                      PostDescription = s.PostDescription,
+                      PostDate = s.PostDate,
+                      CategoryName = CultureHelper.IsArabic() ? s.Category.NameAr : s.Category.NameEn
+                  }).ToListAsync();
 
-                var Posts = await _authorPostServices.GetAuthorPostsAsQerayableSearch(SearchItem)
-                    .Select(s => new GetPostsViewModel
-                    {
-                        Id = s.Id,
-                        UserName = s.Author.user.UserName,
-                        FullName = CultureHelper.IsArabic() ? s.Author.user.NameAr : s.Author.user.NameEn,
-                        PostImage = s.PostImage,
-                        PostTitle = s.PostTitle,
-                        PostDescription = s.PostDescription,
-                        PostDate = s.PostDate,
-                        CategoryName = CultureHelper.IsArabic() ? s.Category.NameAr : s.Category.NameEn
-                    }).ToListAsync();
-
-                return PartialView("_PartialPostData", Posts);
+                return PartialView("_PartialPostData", PostsList);
 
             }
             catch (Exception ex)

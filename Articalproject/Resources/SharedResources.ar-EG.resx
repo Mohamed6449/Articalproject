@@ -312,4 +312,34 @@
   <data name="SureDelete" xml:space="preserve">
     <value>هل انت متاكد من حذف هذا العنصر</value>
   </data>
+  <data name="InformationAuthor" xml:space="preserve">
+    <value>بيانات الناشر</value>
+  </data>
+  <data name="BacktoBage" xml:space="preserve">
+    <value>العودة الي الصفحة</value>
+  </data>
+  <data name="MyAccount" xml:space="preserve">
+    <value>حسابي</value>
+  </data>
+  <data name="Articles" xml:space="preserve">
+    <value>المقالات</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>الرئيسة</value>
+  </data>
+  <data name="PostAll" xml:space="preserve">
+    <value>مشاركاتك الكلية</value>
+  </data>
+  <data name="PostMonth" xml:space="preserve">
+    <value>مشاركتك الشهرية</value>
+  </data>
+  <data name="PostYears" xml:space="preserve">
+    <value>مشاركتك السنوية</value>
+  </data>
+  <data name="WelcomeMessage" xml:space="preserve">
+    <value>يسعدنا  انضمامك الينا , يمكنك من خلال لوحة التحكم ادارة المحتوى الخاص بك على الموقع</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>مرحبا بك </value>
+  </data>
 </root>

@@ -1,33 +1,30 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Articalproject.ViewModels.Author
 {
     public class UpdateAuthorViewModel
     {
-        [Display(Name = "معرف الناشر")]
-        [Required(ErrorMessage = "الرجاء إدخال معرف الناشر")]
+        [Required]
         public int AuthorId { get; set; }
-        [Display(Name = "معرف المستخدم")]
-        [Required(ErrorMessage = "الرجاء إدخال معرف المستخدم")]
+        [Required]
         public string UserId { get; set; }
-
-        [Display(Name = "اسم المستخدم")]
-        [Required(ErrorMessage = "الرجاء إدخال اسم المستخدم")]
+        [Required(ErrorMessage = "UserNameisrequired")]
+        [Remote("IsUserNameAvailable", "Account", ErrorMessage = "UserNameIsExist")]
         public string UserName { get; set; }
-        [Display(Name = "الاسم بالعربي")]
-        [Required(ErrorMessage = "الرجاء إدخال الاسم بالعربي")]
+   
+        [Required(ErrorMessage = "NameArIsRequired")]
         public string NameAr { get; set; }
 
-        [Display(Name = "الاسم بالانجلش")]
-        [Required(ErrorMessage = "الرجاء إدخال الاسم بالانجلش")]
+
+        [Required(ErrorMessage = "NameEnIsRequired")]
         public string NameEn { get; set; }
 
-        [Display(Name = "السيرة الذاتية")]
-        [Required(ErrorMessage = "الرجاء إدخال السيرة الذاتية")]
+
+        [Required(ErrorMessage = "Bio")]
         public string Bio { get; set; }
 
-        [Display(Name = "تحميل الصورة")]
         public IFormFile? File { get; set; }
 
         [Display(Name = "FaceBook")]

@@ -39,6 +39,10 @@ namespace Articalproject.Services.Implementations
         {
             return _unitOfWork.Repository<AuthorPost>().GetAsQueryble();
         }
+        public IQueryable<AuthorPost> GetAuthorPostsAsQuerybleWithInclude()
+        {
+            return _unitOfWork.Repository<AuthorPost>().GetAsQueryble().Include(i => i.Author).ThenInclude(T => T.user).Include(i => i.Category);
+        }
 
         public async Task<AuthorPost?> GetAuthorPostByIdWithOutIncludeAsync(int AuthorPostId)
         {

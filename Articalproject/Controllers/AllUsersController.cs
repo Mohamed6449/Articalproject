@@ -7,6 +7,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Articalproject.Controllers
 {
@@ -17,12 +18,14 @@ namespace Articalproject.Controllers
         private readonly IAuthorServices _authorServices;
         private readonly IMapper _mapper;
         public readonly UserManager<User> _userManager;
+        private readonly IAuthorizationService _authorizationService;
         public readonly IUnitOfWork _unitOfWork;
         private readonly int _PageItem;
 
-        public AllUsersController(IUnitOfWork unitOfWork,IFileServiece fileServiece,ILogger<AllUsersController> logger,IAuthorServices authorServices ,IMapper mapper,UserManager<User> userManager )
+        public AllUsersController(IAuthorizationService authorizationService, IUnitOfWork unitOfWork,IFileServiece fileServiece,ILogger<AllUsersController> logger,IAuthorServices authorServices ,IMapper mapper,UserManager<User> userManager )
         {
-            _PageItem = 1;
+            _PageItem = 10;
+            _authorizationService = authorizationService;
             _unitOfWork = unitOfWork;
             _logger = logger;
             _authorServices = authorServices;
@@ -31,6 +34,7 @@ namespace Articalproject.Controllers
             _fileServiece=fileServiece;
         }
 
+        [Authorize(policy: "AdminPolicy")]
         [HttpGet]
         public async Task<IActionResult> Index(int? Id, bool next = true)
         {
@@ -80,6 +84,7 @@ namespace Articalproject.Controllers
 
 
 
+        [Authorize(policy: "AdminPolicy")]
 
         public async Task<IActionResult> Search(string SearchItem)
         {
@@ -96,7 +101,7 @@ namespace Articalproject.Controllers
 
 
 
-
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Update(int? Id)
         {
@@ -112,6 +117,7 @@ namespace Articalproject.Controllers
 
             return View(result);
         }
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(UpdateAuthorViewModel model)
@@ -172,8 +178,10 @@ namespace Articalproject.Controllers
                     }
                     await trans.CommitAsync();
                     _logger.LogInformation("Author updated successfully. in update Author");
-                    return RedirectToAction(nameof(Index));
 
+                  if( _authorizationService.AuthorizeAsync(User, "AdminPolicy").Result.Succeeded)
+                    return RedirectToAction(nameof(Index));
+                  return RedirectToAction("Index", "Admin");
                 }
                 catch (Exception ex)
                 {
@@ -185,6 +193,7 @@ namespace Articalproject.Controllers
             }
             return View(model);
         }
+        [Authorize(policy: "AdminPolicy")]
 
         [HttpGet]
         public async Task<IActionResult> Delete(int? Id)
@@ -201,6 +210,7 @@ namespace Articalproject.Controllers
 
 
         }
+        [Authorize(policy: "AdminPolicy")]
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

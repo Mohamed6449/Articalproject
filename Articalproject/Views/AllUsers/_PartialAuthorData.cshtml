@@ -80,7 +80,7 @@
     <div class="btn-container">
         <a class="nav-btn" asp-action="Index" asp-route-Id="0">الصفحة الأولى</a>
 
-        @if (Model.Count() >= 1 && ViewBag.Next == true)
+        @if (Model.Count() >= 10 && ViewBag.Next == true)
         {
             <a class="nav-btn" asp-action="Index" asp-route-Id="@Model.Last().AuthorId" asp-route-next="true">التالي</a>
         }

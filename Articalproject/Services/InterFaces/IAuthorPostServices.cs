@@ -18,6 +18,7 @@ namespace Articalproject.Services.InterFaces
         public Task<string> DeleteAuthorPostAsync(AuthorPost AuthorPost);
 
         public IQueryable<AuthorPost> GetAuthorPostsAsQerayableSearch(string? search);
+        public IQueryable<AuthorPost> GetAuthorPostsAsQuerybleWithInclude();
 
     }
 }

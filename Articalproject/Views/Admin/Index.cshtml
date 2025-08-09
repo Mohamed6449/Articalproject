@@ -1,4 +1,8 @@
-﻿@{
+﻿@using Microsoft.Extensions.Localization
+@model Articalproject.ViewModels.Admin.SummaryViewModel
+@inject IStringLocalizer<SharedResources> _SharedResources;
+
+@{
     Layout = "_LayoutAdmin";
 }
 
@@ -9,8 +13,8 @@
             <div class="photo-card">
                 <div class="photo-background" style="background-image:url(&quot;~/img/product-aeon-feature.jpg&quot;);"></div>
                 <div class="photo-details">
-                    <h1 style="font-family: Cairo, sans-serif;">مرحبا بك صفاء&nbsp;</h1>
-                    <p style="text-align: center;">يسعدنا&nbsp; انضمامك الينا , يمكنك من خلال لوحة التحكم ادارة المحتوى الخاص بك على الموقع&nbsp;</p>
+                    <h1 style="font-family: Cairo, sans-serif;">@_SharedResources[SharedResourcesKeys.Welcome]</h1>
+                    <p style="text-align: center;">@_SharedResources[SharedResourcesKeys.WelcomeMessage]</p>
                     <div class="photo-tags"></div>
                 </div>
             </div>
@@ -22,11 +26,11 @@
                 <div class="card-header">
                     <span class="space"><a href="#"><i class="fa fa-cloud-download" id="download-icon-1"></i></a></span>
                     <div class="cardheader-text">
-                        <h4 id="heading-card-1" style="text-align: center;font-size: 81px;">0</h4>
+                        <h4 id="heading-card-1" style="text-align: center;font-size: 81px;">@Model.AllPost</h4>
                     </div>
                 </div>
                 <div class="card-body">
-                    <p class="card-text cardbody-sub-text" style="text-align: center;">مشاركاتك الكلية</p>
+                    <p class="card-text cardbody-sub-text" style="text-align: center;">@_SharedResources[SharedResourcesKeys.PostAll]</p>
                 </div>
             </div>
         </div>
@@ -35,11 +39,11 @@
                 <div class="card-header">
                     <span class="space"><a href="#"><i class="fa fa-cloud-download" id="download-icon-2"></i></a></span>
                     <div class="cardheader-text">
-                        <h4 id="heading-card-2" style="text-align: center;font-size: 81px;">0</h4>
+                        <h4 id="heading-card-2" style="text-align: center;font-size: 81px;">@Model.PostInYear</h4>
                     </div>
                 </div>
                 <div class="card-body">
-                    <p class="card-text cardbody-sub-text" style="text-align: center;">مشاركاتك لهذه السنة</p>
+                    <p class="card-text cardbody-sub-text" style="text-align: center;">@_SharedResources[SharedResourcesKeys.PostYears]</p>
                 </div>
             </div>
         </div>
@@ -48,12 +52,12 @@
                 <div class="card-header cards-header-hover">
                     <span class="space"><a href="#"><i class="fa fa-cloud-download" id="download-icon-3"></i></a></span>
                     <div class="cardheader-text">
-                        <h4 id="heading-card-3" style="text-align: center;font-size: 81px;">0</h4>
+                        <h4 id="heading-card-3" style="text-align: center;font-size: 81px;">@Model.PostInMonth</h4>
                     </div>
                 </div>
                 <div class="card-body">
                     <p class="card-text sub-text-color"></p>
-                    <p class="card-text cardbody-sub-text" style="text-align: center;">مشاركاتك لهذه الشهر</p>
+                    <p class="card-text cardbody-sub-text" style="text-align: center;">@_SharedResources[SharedResourcesKeys.PostMonth]</p>
                 </div>
             </div>
         </div>

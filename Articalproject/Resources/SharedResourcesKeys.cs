@@ -10,6 +10,16 @@
 		public  const string Next = "Next";
 		public  const string FirstPage = "FirstPage";
 		public  const string SureDelete = "SureDelete";
+		public  const string InformationAuthor = "InformationAuthor";
+		public  const string BacktoBage = "BacktoBage";
+		public  const string MyAccount = "MyAccount";
+		public  const string Articles = "Articles";
+		public  const string Home = "Home";
+		public  const string PostAll = "PostAll";
+		public  const string PostYears = "PostYears";
+		public  const string PostMonth = "PostMonth";
+		public  const string WelcomeMessage = "WelcomeMessage";
+		public  const string Welcome = "Welcome";
 		
 		public const string NameArIsRequired = "NameArIsRequired";
 		public const string PublicationData = "PublicationData";
