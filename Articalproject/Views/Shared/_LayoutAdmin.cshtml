@@ -72,13 +72,18 @@
     <link rel="stylesheet" href="~/css/Vertical-Left-SideBar-by-Jigar-Mistry.css">
 </head>
 
-<body dir=@(!CultureHelper.IsRightToLeft() ? "rtl" : "ltr") style="font-family: Cairo;">
+<body dir=@(CultureHelper.IsRightToLeft() ? "rtl" : "ltr") style="font-family: Cairo;">
     <nav class="navbar navbar-light navbar-expand-lg navigation-clean-button">
         <div class="container">
             <a class="navbar-brand" asp-action="Index" asp-controller="Home">@_SharedResources[SharedResourcesKeys.BacktoBage]</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav me-auto"></ul>
                 <span class="navbar-text actions"> 
+
+                    <a asp-action="Index" asp-controller="User" asp-route-Id="@AuthorId" class="btn btn-light action-button" role="button" style="margin: 5px;width: 150px;margin-right: 0px;font-family: Cairo, sans-serif;">@_SharedResources[SharedResourcesKeys.UserManage]</a>
+                    <a asp-action="Index" asp-controller="Role" asp-route-Id="@AuthorId" class="btn btn-light action-button" role="button" style="margin: 5px;width: 116.7px;margin-right: 0px;font-family: Cairo, sans-serif;">Roles</a>
+                    <a asp-action="Index" asp-controller="Claim" asp-route-Id="@AuthorId" class="btn btn-light action-button" role="button" style="margin: 5px;width: 116.7px;margin-right: 0px;font-family: Cairo, sans-serif;">Claims</a>
+
                     <a asp-action="Update" asp-controller="AllUsers" asp-route-Id="@AuthorId" class="btn btn-light action-button" role="button" style="margin: 5px;width: 116.7px;margin-right: 0px;font-family: Cairo, sans-serif;">@_SharedResources[SharedResourcesKeys.MyAccount]</a>
                     <a asp-controller="Post" asp-action="Index" class="btn btn-light action-button" role="button" style="margin: 5px;width: 116.7px;margin-right: 0px;font-family: Cairo, sans-serif;">@_SharedResources[SharedResourcesKeys.Articles]</a>
                     @if (_authorizationService.AuthorizeAsync(User, "AdminPolicy").Result.Succeeded)

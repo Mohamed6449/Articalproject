@@ -390,4 +390,7 @@
   <data name="Latestarticles" xml:space="preserve">
     <value>Latest articles</value>
   </data>
+  <data name="UserManage" xml:space="preserve">
+    <value>Accounts management</value>
+  </data>
 </root>

@@ -9,6 +9,7 @@
 		public  const string Users = "Users";
 		public  const string Dashboard = "Dashboard";
 		public  const string Joinnow = "Joinnow";
+		public  const string UserManage = "UserManage";
 		public  const string welcomeMy = "welcomeMy";
 		public  const string Happy = "Happy";
 		public  const string Latestarticles = "Latestarticles";
