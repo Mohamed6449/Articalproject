@@ -4,8 +4,18 @@
 	{
 
 		public  const string Price = "Price";
+		public  const string MyArticles = "MyArticles";
+		public  const string Categorys = "Categorys";
+		public  const string Users = "Users";
+		public  const string Dashboard = "Dashboard";
+		public  const string Joinnow = "Joinnow";
+		public  const string welcomeMy = "welcomeMy";
+		public  const string Happy = "Happy";
+		public  const string Latestarticles = "Latestarticles";
+		public  const string ContactUs = "ContactUs";
 		public  const string NewPost = "NewPost";
 		public  const string Delete = "Delete";
+		public  const string Publishers = "Publishers";
 		public  const string Perevious = "Perevious";
 		public  const string Next = "Next";
 		public  const string FirstPage = "FirstPage";
@@ -20,6 +30,12 @@
 		public  const string PostMonth = "PostMonth";
 		public  const string WelcomeMessage = "WelcomeMessage";
 		public  const string Welcome = "Welcome";
+		public  const string AllCategory = "AllCategory";
+		public  const string Read = "Read";
+		public  const string ArticalPost = "ArticalPost";
+		public  const string WhoWeAre = "WhoWeAre";
+		public  const string OurPublicher = "OurPublicher";
+		public  const string search = "search";
 		
 		public const string NameArIsRequired = "NameArIsRequired";
 		public const string PublicationData = "PublicationData";

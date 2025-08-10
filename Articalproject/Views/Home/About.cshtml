@@ -1,0 +1,41 @@
+﻿@using Articalproject.Helper
+@{
+    ViewData["Title"] = CultureHelper.IsArabic() ? "عن الموقع" : "About";
+}
+
+<section class="about-section py-5" style="background: #f9f9f9; font-family: Cairo, sans-serif;">
+    <div class="container text-center">
+        <h2 class="mb-4" style="color: #333;">
+            @if (CultureHelper.IsArabic())
+            {
+                @:عن موقعي
+            }
+            else
+            {
+                @:About My Website
+            }
+        </h2>
+
+        <p class="lead" style="max-width: 600px; margin: auto; color: #555;">
+            @if (CultureHelper.IsArabic())
+            {
+                @:أنا محمد، سعيد جدًا بزيارتك لموقعي 😊 هنا هتلاقي مقالات ومحتوى ممتع، وأتمنى تستفيد وتستمتع وانت بتتصفح.
+            }
+            else
+            {
+                @:I’m Mohamed, and I’m really happy you visited my website 😊 Here you’ll find articles and interesting content. I hope you enjoy your time here.
+            }
+        </p>
+
+        <a asp-action="Index" asp-controller="Home" class="btn btn-primary mt-4" style="border-radius: 30px; padding: 10px 30px;">
+            @if (CultureHelper.IsArabic())
+            {
+                @:العودة للصفحة الرئيسية
+            }
+            else
+            {
+                @:Back to Home
+            }
+        </a>
+    </div>
+</section>

@@ -1,0 +1,63 @@
+﻿@using Articalproject.ViewModels.Home
+@using Articalproject.Helper
+@inject IStringLocalizer<SharedResources> _SharedResources;
+@model List<AuthorsViewModel>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+<section class="bounce animated article-clean">
+    <div class="container">
+        <section class="team-boxed">
+            <div class="container">
+                 <div class="intro">
+                    <h2 class="text-center" style="font-family: Cairo, sans-serif;">@_SharedResources[SharedResourcesKeys.OurPublicher]</h2>
+                </div>
+                    <input style="font-family: Cairo, sans-serif; width: 200px;"
+                           class="form-control search-field"
+                           id="SearchItem"
+                           type="text"
+                           placeholder="@_SharedResources[SharedResourcesKeys.search]" />
+					<br />
+					<br />
+                
+
+                    <div id="PostData">
+
+                        @await Html.PartialAsync("_PartialAuthorData", Model)
+                        
+
+                    </div>
+                   
+                    
+                
+            </div>
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                    <li class="page-item"><a class="page-link" href="#">5</a></li>
+                    <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                </ul>
+            </nav>
+        </section>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $("#SearchItem").on('input', function () {
+            var searchString = $(this).val();
+            $.ajax({
+                url: '@Url.Action("SearchAuthor", "Home")',
+                type: 'GET',
+                data: { SearchItem: searchString },
+                success: function (result) {
+                    $("#PostData").html(result);
+                }
+            });
+        });
+    });
+</script>

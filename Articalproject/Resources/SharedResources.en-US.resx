@@ -342,4 +342,52 @@
   <data name="Welcome" xml:space="preserve">
     <value>Welcome</value>
   </data>
+  <data name="AllCategory" xml:space="preserve">
+    <value>All Category</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>Read</value>
+  </data>
+  <data name="ArticalPost" xml:space="preserve">
+    <value>Share Article</value>
+  </data>
+  <data name="WhoWeAre" xml:space="preserve">
+    <value>About </value>
+  </data>
+  <data name="OurPublicher" xml:space="preserve">
+    <value> Our Publisher</value>
+  </data>
+  <data name="search" xml:space="preserve">
+    <value>search ......</value>
+  </data>
+  <data name="MyArticles" xml:space="preserve">
+    <value>My Articles</value>
+  </data>
+  <data name="ContactUs" xml:space="preserve">
+    <value>Contact Us</value>
+  </data>
+  <data name="Publishers" xml:space="preserve">
+    <value>Publishers</value>
+  </data>
+  <data name="Categorys" xml:space="preserve">
+    <value>Categories</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="Joinnow" xml:space="preserve">
+    <value>Join now</value>
+  </data>
+  <data name="welcomeMy" xml:space="preserve">
+    <value>Welcome to my articles website</value>
+  </data>
+  <data name="Happy" xml:space="preserve">
+    <value>We are happy to have you join us</value>
+  </data>
+  <data name="Latestarticles" xml:space="preserve">
+    <value>Latest articles</value>
+  </data>
 </root>

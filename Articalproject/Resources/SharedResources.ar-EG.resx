@@ -342,4 +342,52 @@
   <data name="Welcome" xml:space="preserve">
     <value>مرحبا بك </value>
   </data>
+  <data name="AllCategory" xml:space="preserve">
+    <value>جميع الاصناف</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>قراءة</value>
+  </data>
+  <data name="ArticalPost" xml:space="preserve">
+    <value>شارك المقالة</value>
+  </data>
+  <data name="WhoWeAre" xml:space="preserve">
+    <value>من نحن؟</value>
+  </data>
+  <data name="OurPublicher" xml:space="preserve">
+    <value>ناشرونا</value>
+  </data>
+  <data name="search" xml:space="preserve">
+    <value>ابحث ......</value>
+  </data>
+  <data name="MyArticles" xml:space="preserve">
+    <value>مقالاتي</value>
+  </data>
+  <data name="ContactUs" xml:space="preserve">
+    <value>تواصل معنا</value>
+  </data>
+  <data name="Publishers" xml:space="preserve">
+    <value>الناشرون</value>
+  </data>
+  <data name="Categorys" xml:space="preserve">
+    <value>الاصناف</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>المستخدمين</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>لوحة التحكم</value>
+  </data>
+  <data name="Joinnow" xml:space="preserve">
+    <value>انضم الان</value>
+  </data>
+  <data name="welcomeMy" xml:space="preserve">
+    <value>مرحبا بك في موقع مقالاتي</value>
+  </data>
+  <data name="Happy" xml:space="preserve">
+    <value> يسعدنا انضمامك معنا</value>
+  </data>
+  <data name="Latestarticles" xml:space="preserve">
+    <value>اخر المقالات</value>
+  </data>
 </root>

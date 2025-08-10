@@ -1,0 +1,23 @@
+﻿@using Articalproject.Helper
+@using Articalproject.ViewModels.Home
+@inject IStringLocalizer<SharedResources> _SharedResources;
+@model HomeViewModel
+
+
+<div class="row row-cols-3">
+    @foreach(var Article in Model.ListAuthorPost)
+    {
+
+            <div class="col" data-bss-hover-animate="pulse" style="margin: 0;margin-top: 10px;">
+                <div class="card" style="margin: 10;">
+                    <img class="card-img-top w-100 d-block" src=@Article.PostImage>
+                    <div class="card-body">
+                        <h4 class="text-center card-title" style="font-family: Cairo, sans-serif;">@Article.PostTitle</h4>
+                        <a class="btn btn-primary float-end" role="button" style="font-family: Cairo, sans-serif;width: 149.875px;" asp-action="Article" asp-route-Id="@Article.Id" asp-controller="Home">@_SharedResources[SharedResourcesKeys.Read]</a>
+                    </div>
+                </div>
+          
+
+        </div>
+}
+</div>

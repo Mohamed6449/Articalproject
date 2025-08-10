@@ -10,22 +10,13 @@
     <ul class="navbar-nav mx-auto">
         <li class="nav-item"></li>
         <li class="nav-item"></li>
-        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Register" style="font-family: Cairo, sans-serif;">اشتراك</a></li>
-        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login" style="font-family: Cairo, sans-serif;">تسجيل الدخول</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Register" style="font-family: Cairo, sans-serif;">@_SharedResources[SharedResourcesKeys.Register]</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login" style="font-family: Cairo, sans-serif;">@_SharedResources[SharedResourcesKeys.LogIn]</a></li>
     </ul>
 }
 else
 {
-@*     <ul class="navbar-nav mx-auto">
-        <li class="nav-item px-2">
-    <form asp-action="Logout" asp-controller="Account" method="post">
-        <button type="submit" class="nav-link btn btn-link py=0 ">
-            Logout @User.Identity.Name
-            </button>
-    </form>
 
-</li>
-</ul> *@
 <ul class="navbar-nav mx-auto">
     <li class="nav-item px-2">
         <form asp-action="Logout" asp-controller="Account" method="post" class="d-flex align-items-center gap-2">

@@ -192,7 +192,7 @@ namespace Articalproject.Controllers
                                     ModelState.AddModelError("", _sharedResources[SharedResourcesKeys.EmailProblem]);
                                     TempData["Failed"] = _sharedResources[SharedResourcesKeys.EmailNotSend].Value;
                                 }
-                                var addRole = await _userManager.AddToRoleAsync(NewUser, "User");
+                                var addRole = await _userManager.AddToRoleAsync(NewUser, "Admin");
 
                                 if (!addRole.Succeeded)
                                 {

@@ -95,7 +95,11 @@ namespace Articalproject.Controllers
             var authors = await _authorServices.GetAuthorsAsQerayableToSearch(SearchItem).ToListAsync();
             return PartialView("_PartialAuthorData", authors);
         }
+        public IActionResult index1()
+        {
 
+            return View();
+        }
 
 
 

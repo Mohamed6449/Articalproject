@@ -12,6 +12,21 @@
 <html style="font-family: Cairo, sans-serif;">
 
 <head>
+    
+     <style>
+            #mainNav {
+                background-color: #1E2A38;
+            }
+
+                #mainNav .navbar-nav .nav-link {
+                    color: white !important;
+                }
+
+                    #mainNav .navbar-nav .nav-link:hover {
+                        color: #00b4d8 !important;
+                    }
+        </style>
+
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -61,29 +76,29 @@
     <link rel="stylesheet" href="~/css/Vertical-Left-SideBar-by-Jigar-Mistry.css">
 </head>
 
-<body dir=@(!CultureHelper.IsRightToLeft() ? "rtl" : "ltr") id="page-top" data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="72">
-    <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-secondary text-uppercase" id="mainNav"  style="font-family: Cairo, sans-serif;">
+<body dir=@(CultureHelper.IsRightToLeft() ? "rtl" : "ltr") id="page-top" data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="72">
+    <nav class="navbar navbar-light navbar-expand-lg fixed-top text-uppercase" id="mainNav" style="font-family: Cairo, sans-serif;">
         <div class="container">
-            <a class="navbar-brand" href="index.html">مقالاتي</a><button data-bs-toggle="collapse" data-bs-target="#navbarResponsive" class="navbar-toggler text-white bg-primary navbar-toggler-right text-uppercase rounded" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
+            <a class="navbar-brand" asp-action="Index" asp-controller="Home">@_SharedResources[SharedResourcesKeys.MyArticles]</a><button data-bs-toggle="collapse" data-bs-target="#navbarResponsive" class="navbar-toggler text-white bg-primary navbar-toggler-right text-uppercase rounded" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
             <div class="collapse navbar-collapse text-center" id="navbarResponsive">
 
 
                     <partial name="_LogPartial"></partial>
 
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#about" style="font-family: Cairo, sans-serif;">من نحن؟</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#contact" style="font-family: Cairo, sans-serif;">تواصل معنا</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded"  style="font-family: Cairo, sans-serif;">الناشرون</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" asp-action="About" asp-controller="Home" style="font-family: Cairo, sans-serif;">@_SharedResources[SharedResourcesKeys.WhoWeAre]</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#contact" style="font-family: Cairo, sans-serif;">@_SharedResources[SharedResourcesKeys.ContactUs]</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" asp-action="GetAuthors" asp-controller="Home" style="font-family: Cairo, sans-serif;">@_SharedResources[SharedResourcesKeys.Publishers]</a></li>
                     <li class="nav-item mx-0 mx-lg-1"></li>
 
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="index.html" style="font-family: Cairo, sans-serif;">الرئيسة</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" asp-action="Index" asp-controller="Home" style="font-family: Cairo, sans-serif;">@_SharedResources[SharedResourcesKeys.Home]</a></li>
                     <li class="nav-item mx-0 mx-lg-1"></li>
                 </ul>
 
                 @if (_signInManager.IsSignedIn(User))
                 {
                     
-                <a class="btn btn-primary" role="button" style="font-family: Cairo, sans-serif;" asp-action="Index" asp-controller="Admin" >لوحة التحكم</a>
+                    <a class="btn btn-primary" role="button" style="font-family: Cairo, sans-serif;" asp-action="Index" asp-controller="Admin">@_SharedResources[SharedResourcesKeys.Dashboard]</a>
                 }
                
                 
@@ -97,15 +112,7 @@
         </div>
     </nav>
     
-<header class="text-center text-white bg-primary masthead">
-    <div class="container">
-        <img class="img-fluid d-block mx-auto mb-5" src="~/img/profile.png">
-        <h1 style="font-family: Cairo, sans-serif;">مقالاتي</h1>
-        <hr class="star-light">
-        <h2 class="font-weight-light mb-0" style="font-family: Cairo, sans-serif;">مرحبا بك في موقع مقالاتي</h2>
-        <h2 class="font-weight-light mb-0" style="font-family: Cairo, sans-serif;margin: 11px;font-size: 21px;">&nbsp; :) يسعدنا انضمامك معنا&nbsp;</h2>
-    </div><button class="btn btn-primary" type="button" style="width: 254.5625px;background: var(--bs-blue);font-family: Cairo, sans-serif;height: 50px;margin: 5px;"><i class="fa fa-sign-in"></i><span style="margin: 15px;">انضم الان&nbsp;</span></button>
-</header>
+
 
 
     @RenderBody()

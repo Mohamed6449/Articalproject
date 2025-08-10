@@ -1,0 +1,21 @@
+﻿@using Articalproject.ViewModels.Home
+@model List<AuthorsViewModel>
+<div class="row people">
+@{
+    foreach (var item in Model)
+    {
+        <div class="col-md-6 col-lg-4 item" data-aos="zoom-out">
+            <div class="box">
+                <img class="rounded-circle" src="@item.ProfilePictureUrl">
+                <h3 class="name">@item.Name</h3>
+                <p class="description">@item.Bio</p>
+                <div class="social">
+                    <a href="@item.FacebookUrl"><i class="fa fa-facebook-official"></i></a>
+                    <a href="@item.TwitterUrl"><i class="fa fa-twitter"></i></a>
+                    <a href="@item.Instagram"><i class="fa fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+
+    }
+}

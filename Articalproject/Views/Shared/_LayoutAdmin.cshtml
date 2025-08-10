@@ -83,8 +83,8 @@
                     <a asp-controller="Post" asp-action="Index" class="btn btn-light action-button" role="button" style="margin: 5px;width: 116.7px;margin-right: 0px;font-family: Cairo, sans-serif;">@_SharedResources[SharedResourcesKeys.Articles]</a>
                     @if (_authorizationService.AuthorizeAsync(User, "AdminPolicy").Result.Succeeded)
                     {
-                        <a asp-controller="AllUsers" asp-action="Index" class="btn btn-light action-button" role="button" style="margin: 5px;width: 116.7px;margin-right: 0px;font-family: Cairo, sans-serif;">المستخدمين</a>
-                        <a asp-action="Index" asp-controller="Category" class="btn btn-light action-button" role="button" style="margin: 5px;width: 116.7px;margin-right: 0px;font-family: Cairo, sans-serif;">الاصناف</a>
+                        <a asp-controller="AllUsers" asp-action="Index" class="btn btn-light action-button" role="button" style="margin: 5px;width: 116.7px;margin-right: 0px;font-family: Cairo, sans-serif;">@_SharedResources[SharedResourcesKeys.Users]</a>
+                        <a asp-action="Index" asp-controller="Category" class="btn btn-light action-button" role="button" style="margin: 5px;width: 116.7px;margin-right: 0px;font-family: Cairo, sans-serif;">@_SharedResources[SharedResourcesKeys.Categorys]</a>
                     }
                     <a class="btn btn-light action-button" role="button" asp-action="Index" asp-controller="Admin" style="margin: 5px;width: 116.7px;margin-right: 0px;font-family: Cairo, sans-serif;background: var(--bs-red);">@_SharedResources[SharedResourcesKeys.Home]</a>
                 </span>
