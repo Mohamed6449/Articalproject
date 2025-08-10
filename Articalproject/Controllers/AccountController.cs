@@ -262,6 +262,19 @@ namespace Articalproject.Controllers
         {
             try
             {
+                try
+                {
+
+                    if(username==_userManager.GetUserName(User) )
+                    {
+                        return Json(true);
+                    }
+                }
+                catch 
+                {
+                    
+                }
+
                 var user = await _userManager.FindByNameAsync(username);
                 return user == null ? Json(true) : Json(_sharedResources["UserNameIsExist"].Value);
 
